@@ -35,8 +35,58 @@
 
 .card {
   padding: 2em;
+  border-radius: 18px;
 }
 
 .read-the-docs {
   color: #888;
+}
+
+.btn-hotel, .btn-success, .btn-primary {
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-hotel:hover, .btn-success:hover, .btn-primary:hover {
+  filter: brightness(0.95);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+input[type="file"]::-webkit-file-upload-button {
+  background: #0d6efd;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4em 1.2em;
+  cursor: pointer;
+}
+
+input[type="file"]::-ms-browse {
+  background: #0d6efd;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4em 1.2em;
+  cursor: pointer;
+}
+
+input[type="file"]::file-selector-button {
+  background: #0d6efd;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4em 1.2em;
+  cursor: pointer;
+}
+
+.form-label {
+  font-weight: 500;
+}
+
+input.form-control, select.form-select {
+  border-radius: 8px;
+}
+
+img.mb-2, img.mb-3 {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
