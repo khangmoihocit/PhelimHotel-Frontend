@@ -1,29 +1,27 @@
-import React from 'react';
+import React from "react";
 
-const RoomPaginator = ({currentPage, totalPgae, onPageChange}) => {
-    const pageNumbers = Array.from({length: totalPgae}, (_, i) => i+1);
+const RoomPaginator = ({ currentPage, totalPage, onPageChange }) => {
+  const pageNumbers = Array.from({ length: totalPage }, (_, i) => i + 1);
 
-
-
-    return (
-        <nav>
-            <ul className='pagination justify-content-center'>
-                {pageNumbers.map(pageNumber => {
-                    (
-                        <li key={pageNumber}
-                        className={`page-item ${currentPage == pageNumber ? 
-                        "active" : ""
-                        }`}
-                        >
-                            <button className='page-link' onClick={()=>onPageChange(pageNumber)}>
-                                {pageNumber}
-                            </button>
-                        </li>
-                    )
-                })}
-            </ul>
-        </nav>
-    );
+  return (
+    <nav>
+      <ul className="pagination justify-content-center">
+        {pageNumbers.map(pageNumber => (
+          <li
+            key={pageNumber}
+            className={`page-item ${currentPage == pageNumber ? "active" : ""}`}
+          >
+            <button
+              className="page-link"
+              onClick={() => onPageChange(pageNumber)}
+            >
+              {pageNumber}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
 };
 
 export default RoomPaginator;

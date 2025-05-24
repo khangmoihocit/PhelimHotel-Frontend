@@ -3,11 +3,11 @@ import { use } from "react";
 import { getRoomTypes } from "../utils/ApiFunctions";
 
 const RoomTypeSelector = ({ handleRoomInputChange, newRoom }) => {
-  const [roomTypes, setRoomTypes] = useState([]); // Sửa khởi tạo
-  const [showNewRoomTypeInput, setShowNewRoomTypeInput] = useState(false);
-  const [newRoomType, setNewRoomType] = useState("");
+  const [roomTypes, setRoomTypes] = useState([]); // danh sách loại phòng từ database
+  const [showNewRoomTypeInput, setShowNewRoomTypeInput] = useState(false); //dùng để show input thêm loại phòng
+  const [newRoomType, setNewRoomType] = useState(""); //loại phòng mới
 
-  //lấy các loại phòng
+  //lấy các loại phòng từ database
   useEffect(() => {
     getRoomTypes().then((data) => {
       setRoomTypes(Array.isArray(data) ? data : []); // Đảm bảo là mảng
