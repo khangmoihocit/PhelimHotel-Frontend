@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { deleteRoom, getAllRooms } from "../utils/ApiFunctions";
 import RoomFilter from "../common/RoomFilter";
-import { Col } from "react-bootstrap";
+import { Button, Col } from "react-bootstrap";
 import RoomsPaginator from "../common/RoomPaginator";
 import { FaEdit, FaEye, FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -90,6 +90,14 @@ const ExistingRooms = () => {
           <div className="d-flex justify-content-center mb-3 mt-5">
             <h2>Existing rooms</h2>
           </div>
+          {successMessage && (
+            <div className="alert alert-success fade show">
+              {successMessage}
+            </div>
+          )}
+          {errorMessage && (
+            <div className="alert alert-danger fade show">{errorMessage}</div>
+          )}
           <Col md={6} className="mb-3 mb-md-0">
             {/* Ô để lọc*/}
             <RoomFilter data={rooms} setFilteredData={setFilteredRooms} />
@@ -112,7 +120,7 @@ const ExistingRooms = () => {
                   <td>{room.roomType}</td>
                   <td>{room.roomPrice}</td>
                   <td>
-                    <Link to={`/edit-rom/${room.id}`}>
+                    <Link to={`/edit-room/${room.id}`}>
                       <span className="btn btn-info">
                         <FaEye />
                       </span>
