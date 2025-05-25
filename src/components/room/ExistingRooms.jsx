@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { deleteRoom, getAllRooms } from "../utils/ApiFunctions";
 import RoomFilter from "../common/RoomFilter";
-import { Button, Col } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
 import RoomsPaginator from "../common/RoomPaginator";
-import { FaEdit, FaEye, FaTrashAlt } from "react-icons/fa";
+import { FaEdit, FaEye, FaPlus, FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const ExistingRooms = () => {
@@ -87,7 +87,7 @@ const ExistingRooms = () => {
         <p>Loading existing rooms</p>
       ) : (
         <section className="mt-5 mb-5 container">
-          <div className="d-flex justify-content-center mb-3 mt-5">
+          <div className="d-flex justify-content-between mb-3 mt-5">
             <h2>Existing rooms</h2>
           </div>
           {successMessage && (
@@ -98,10 +98,18 @@ const ExistingRooms = () => {
           {errorMessage && (
             <div className="alert alert-danger fade show">{errorMessage}</div>
           )}
-          <Col md={6} className="mb-3 mb-md-0">
-            {/* Ô để lọc*/}
-            <RoomFilter data={rooms} setFilteredData={setFilteredRooms} />
-          </Col>
+          <Row>
+            <Col md={6} className="mb-2 mb-md-0">
+              {/* Ô để lọc*/}
+              <RoomFilter data={rooms} setFilteredData={setFilteredRooms} />
+            </Col>
+
+            <Col md={6} className="d-flex justify-content-end">
+              <Link to={"/add-room"}>
+                <FaPlus /> Add room
+              </Link>
+            </Col>
+          </Row>
 
           <table className="table table-bordered table-hover">
             <thead>
