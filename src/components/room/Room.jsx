@@ -11,7 +11,7 @@ const Room = () => {
   const [isLoading, setIsLoading] = useState(false); //false: load from data success
   const [currentPage, setCurrentPage] = useState(1); //
   const [roomsPerPage] = useState(6); //số lượng phòng trong 1 trang
-  const [filteredData, setFilteredData] = useState([{ id: "" }]); //phòng hiện tại đang hiển thị
+  const [filteredData, setFilteredData] = useState([]); //phòng hiện tại đang hiển thị
 
   useEffect(() => {
     setIsLoading(true);
@@ -65,12 +65,12 @@ const Room = () => {
       </Row>
       <Row>{renderRooms()}</Row>
       <Col md={6} className="d-flex align-item-center justify-content-end">
-          <RoomPaginator
-            currentPage={currentPage}
-            totalPage={totalPages}
-            onPageChange={handlePageChange}
-          />
-        </Col>
+        <RoomPaginator
+          currentPage={currentPage}
+          totalPage={totalPages}
+          onPageChange={handlePageChange}
+        />
+      </Col>
     </Container>
   );
 };

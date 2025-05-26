@@ -2,27 +2,57 @@ import React from "react";
 import { Card, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const RoomCard = ({room}) => {
+const RoomCard = ({ room }) => {
+  // Debug logging (remove this in production)
+  console.log("Room data:", room);
+
+  // Ensure room object exists and has required properties
+  if (!room || !room.id) {
+    return null; // Don't render anything if room data is invalid
+  }
+
   return (
-    <Col key={room.id} className="md-4" xs={12}>
-      <Card>
-        <Card.Body className="d-flex flex-wrap align-items-center">
-            <div className="flex-shrink-0 mr-3 mb-3 mb-md-0">
-                <Card.Img variant="top" src={`data:image.jpg;base64, ${room.photo}` }
-                    alt="Room photo"
-                    style={{width: "100%", maxWidth:"200px", height:"auto"}}
-                />
-            </div>
-            <div className="flex-grow-1 ml-3 px-5">
-                <Card.Title className="hotel-color">{room.roomType}</Card.Title>
-                <Card.Title className="hotel-color">{room.roomPrice}</Card.Title>
-                <Card.Text>Bạn có thể đọc 1 số thông tin về phòng tại đây</Card.Text>
-            </div>
-            <div className="flex-shrink-0 mt-3">
-              <Link to={`bookings/${room.id}`} className="btn btn-hotel btn-sm">
-                Đặt phòng
-              </Link>
-            </div>
+    <Col key={room.id} className="mb-4" xs={12} md={6} lg={4}>
+      <Card className="h-100 room-card shadow-sm">
+        <div className="room-image-container">
+          <Card.Img
+            variant="top"
+            src={
+              room.photo &&
+              room.photo !== "undefined" &&
+              room.photo !== undefined &&
+              room.photo.trim() !== ""
+                ? `data:image/jpeg;base64,${room.photo}`
+                : "/placeholder-room.svg"
+            }
+            alt="Room photo"
+            className="room-image"
+            onError={(e) => {
+              console.log("Image failed to load, using placeholder");
+              e.target.src = "/placeholder-room.svg";
+            }}
+          />
+        </div>
+        <Card.Body className="d-flex flex-column">
+          <div className="room-info mb-3">
+            <Card.Title className="hotel-color mb-2 fs-5 fw-bold">
+              {room.roomType}
+            </Card.Title>
+            <Card.Text className="room-price mb-2 fs-4 fw-semibold">
+              {room.roomPrice}VNĐ/đêm
+            </Card.Text>
+            <Card.Text className="text-muted">
+              Phòng tiện nghi đầy đủ, phù hợp cho kỳ nghỉ của bạn
+            </Card.Text>
+          </div>
+          <div className="mt-auto">
+            <Link
+              to={`bookings/${room.id}`}
+              className="btn btn-hotel w-100 py-2 fw-semibold"
+            >
+              Xem Chi Tiết & Đặt Phòng
+            </Link>
+          </div>
         </Card.Body>
       </Card>
     </Col>

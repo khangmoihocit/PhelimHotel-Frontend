@@ -10,6 +10,7 @@ import EditRoom from "./components/room/EditRoom";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import Room from "./components/room/Room";
+import RoomListing from "./components/room/RoomListing";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -24,7 +25,7 @@ function App() {
             <Route path="/edit-room/:roomId" element={<EditRoom />}/>
             <Route path="/existing-rooms" element={<ExistingRooms />}/>
             <Route path="/add-room" element={<AddRoom />}/>
-            <Route path="/room" element={<Room />}/>
+            <Route path="/browse-all-rooms" element={<RoomListing />}/>
           </Routes>
         </Router>
         <Footer/>
