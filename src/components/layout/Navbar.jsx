@@ -8,14 +8,17 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary px-5 shadow mt-0 stick-top mb-5">
-      <div className="container-fluid">
-        <Link to={"/"}>
-          <span className="hotel-color">Phelim Hotel</span>
+    <nav className="navbar navbar-expand-lg navbar-custom fixed-top shadow-lg">
+      <div className="container">
+        <Link to={"/"} className="navbar-brand">
+          <div className="brand-container">
+            <span className="brand-icon">🏨</span>
+            <span className="brand-text">Phelim Hotel</span>
+          </div>
         </Link>
 
         <button
-          className="navbar-toggler"
+          className="navbar-toggler custom-toggler"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarScroll"
@@ -23,39 +26,41 @@ const Navbar = () => {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span className="navbar-toggle-icon"></span>
+          <span className="navbar-toggler-icon"></span>
         </button>
+        
         <div className="collapse navbar-collapse" id="navbarScroll">
-          <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
+          <ul className="navbar-nav me-auto my-2 my-lg-0">
             <li className="nav-item">
               <NavLink
-                className="nav-link"
-                aria-current="page"
+                className="nav-link nav-link-custom"
                 to={"/browse-all-rooms"}
               >
-                Browse All Rooms
+                <span className="nav-icon">🛏️</span>
+                Duyệt Phòng
               </NavLink>
             </li>
             <li className="nav-item">
               <NavLink
-                className="nav-link"
-                aria-current="page"
-                to={"/browse-all-rooms"}
+                className="nav-link nav-link-custom"
+                to={"/admin"}
               >
-                Manage Rooms
+                <span className="nav-icon">⚙️</span>
+                Admin
               </NavLink>
             </li>
           </ul>
 
-          <ul className="d-flex navbar-nav">
+          <ul className="navbar-nav">
             <li className="nav-item">
-              <NavLink className="nav-link" to={"/find-booking"}>
-                Find My Booking
+              <NavLink className="nav-link nav-link-custom" to={"/find-booking"}>
+                <span className="nav-icon">🔍</span>
+                Tìm Đặt Phòng
               </NavLink>
             </li>
             <li className="nav-item dropdown">
               <a
-                className={`nav-link dropdown-toggle ${
+                className={`nav-link dropdown-toggle nav-link-custom ${
                   showAccount ? "show" : ""
                 }`}
                 href="#"
@@ -65,23 +70,28 @@ const Navbar = () => {
                 aria-expanded="false"
                 onClick={handleAccountClick}
               >
-                Account
+                <span className="nav-icon">👤</span>
+                Tài Khoản
               </a>
-              <ul className={`dropdown-menu ${showAccount ? "show" : ""}`}
+              <ul className={`dropdown-menu dropdown-menu-custom ${showAccount ? "show" : ""}`}
               aria-labelledby="accountDropdown">
                 <li>
-                  <Link to={"/login"} className="dropdown-item">
-                    Login
+                  <Link to={"/login"} className="dropdown-item dropdown-item-custom">
+                    <span className="dropdown-icon">🔐</span>
+                    Đăng Nhập
                   </Link>
                 </li>
                 <li>
-                  <Link to={"/profile"} className="dropdown-item">
-                    Profile
+                  <Link to={"/profile"} className="dropdown-item dropdown-item-custom">
+                    <span className="dropdown-icon">👤</span>
+                    Hồ Sơ
                   </Link>
                 </li>
+                <li><hr className="dropdown-divider" /></li>
                 <li>
-                  <Link to={"/logout"} className="dropdown-item">
-                    Logout
+                  <Link to={"/logout"} className="dropdown-item dropdown-item-custom">
+                    <span className="dropdown-icon">🚪</span>
+                    Đăng Xuất
                   </Link>
                 </li>
               </ul>
