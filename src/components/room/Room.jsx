@@ -51,6 +51,7 @@ const Room = () => {
   return (
     <Container>
       <Row>
+        
         <Col md={6} className="mb-3 mb-md-0">
           <RoomFilter data={data} setFilteredData={setFilteredData} />
         </Col>
@@ -62,6 +63,7 @@ const Room = () => {
             onPageChange={handlePageChange}
           />
         </Col>
+
       </Row>
       <Row>{renderRooms()}</Row>
       <Col md={6} className="d-flex align-item-center justify-content-end">

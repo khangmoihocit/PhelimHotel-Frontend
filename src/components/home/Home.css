@@ -1,0 +1,62 @@
+/* Home Page Specific Styles */
+.home-page {
+  overflow-x: hidden;
+}
+
+/* Section Styles */
+.section-header {
+  margin-bottom: 4rem;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(45deg, rgba(169, 77, 123, 1), rgba(137, 127, 132, 1));
+  border-radius: 2px;
+}
+
+.section-subtitle {
+  font-size: 1.2rem;
+  color: #6c757d;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Featured Rooms Section */
+.featured-rooms-section {
+  background: #f8f9fa;
+}
+
+/* Services Section */
+.services-section {
+  background: #f8f9fa;
+}
+
+/* Layout improvements */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .section-subtitle {
+    font-size: 1rem;
+  }
+  
+  .section-header {
+    margin-bottom: 2rem;
+  }
+}

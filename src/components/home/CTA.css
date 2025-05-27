@@ -1,0 +1,130 @@
+/* Call to Action Section Styles */
+.cta-section {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(169, 77, 123, 0.1), rgba(137, 127, 132, 0.1));
+  background-size: 100px 100px;
+  background-image: 
+    linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(255,255,255,0.05) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.05) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.05) 75%);
+  animation: ctaPattern 20s linear infinite;
+}
+
+@keyframes ctaPattern {
+  0% { background-position: 0 0, 0 0, 50px 50px, 50px 50px; }
+  100% { background-position: 100px 100px, -100px 100px, 150px 150px, -50px 150px; }
+}
+
+.cta-content {
+  position: relative;
+  z-index: 2;
+}
+
+.cta-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  color: #fff;
+  position: relative;
+}
+
+.cta-description {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.btn-outline-hotel {
+  background: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-outline-hotel:hover {
+  background: #fff;
+  color: rgba(169, 77, 123, 1);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255,255,255,0.3);
+}
+
+/* Shimmer effect for CTA buttons */
+.btn-hotel.btn-lg,
+.btn-outline-hotel.btn-lg {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-hotel.btn-lg::before,
+.btn-outline-hotel.btn-lg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.6s ease;
+}
+
+.btn-hotel.btn-lg:hover::before,
+.btn-outline-hotel.btn-lg:hover::before {
+  left: 100%;
+}
+
+/* Mobile responsiveness for CTA */
+@media (max-width: 768px) {
+  .cta-title {
+    font-size: 2rem;
+  }
+  
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .btn-hotel.btn-lg,
+  .btn-outline-hotel.btn-lg {
+    width: 80%;
+    text-align: center;
+    justify-content: center;
+  }
+  
+  .cta-content {
+    padding: 1rem;
+  }
+}
