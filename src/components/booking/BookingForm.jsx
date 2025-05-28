@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { bookRoom, getRoomById } from "../utils/ApiFunctions";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 
 const BookingForm = () => {
@@ -16,78 +16,81 @@ const BookingForm = () => {
     numberOfAdults: "",
     numberOfChildren: "",
   });
-  const handleInputChange = e =>{
-    const{name, value} = e.target;
-    setBooking({...booking, [name]: value});
-    setErrorMessage("");
-  }
-
-  const[roomInfo, setRoomInfo] = useState({
-    photo:"",
-    roomType:"",
-    roomPrice:""
+  const [roomInfo, setRoomInfo] = useState({
+    photo: "",
+    roomType: "",
+    roomPrice: "",
   });
-  const{roomId} = useParams();
-  const getRoomPriceById=async roomId =>{
-    try{
-        const response = await getRoomById(roomId);
-        setRoomPrice(response.roomPrice);
-    }catch(error){
-        throw new Error(error);
+  const { roomId } = useParams();
+  const navigate = useNavigate();
+
+  const getRoomPriceById = async (roomId) => {
+    try {
+      const response = await getRoomById(roomId);
+      setRoomPrice(response.roomPrice);
+    } catch (error) {
+      throw new Error(error);
     }
-  }
+  };
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setBooking({ ...booking, [name]: value });
+    setErrorMessage("");
+  };
   //lấy giá phòng đang được chọn đặt
-  useEffect(()=>{
+  useEffect(() => {
     getRoomPriceById(roomId);
   }, [roomId]);
 
-  const calculatePayment = ()=>{
+  const calculatePayment = () => {
     const checkInDate = moment(booking.checkInDate);
     const checkOutDate = moment(booking.checkOutDate);
     const diffInDays = checkOutDate.diff(checkInDate); //khoảng cách giữa 2 ngày
     const price = roomPrice ? roomPrice : 0;
     return diffInDays * price;
-  }
+  };
 
-  const isGuestCountValid =()=>{
+  const isGuestCountValid = () => {
     const adultCount = parseInt(booking.numberOfAdults);
     const childrenCount = parseInt(booking.numberOfChildren);
     const totalCount = adultCount + childrenCount;
     return totalCount >= 1 && adultCount >= 1;
-  }
-  const isCheckOutDateValid=()=>{
-    if(!moment(booking.checkOutDate).isSameOrAfter(booking.checkInDate)){
-        setErrorMessage("Ngày đặt phòng phải trước ngày nhận phòng");
-        return false;
+  };
+  const isCheckOutDateValid = () => {
+    if (!moment(booking.checkOutDate).isSameOrAfter(booking.checkInDate)) {
+      setErrorMessage("Ngày đặt phòng phải trước ngày nhận phòng");
+      return false;
     }
     return true;
-  }
+  };
 
-  const handleSubmit = e =>{
+  const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.currentTarget;
-    if(form.checkValidity === false || !isGuestCountValid() || !isCheckOutDateValid()){
-        e.stopPropagation();
-    }else{
-        setIsSubmitted(true);
+    if (
+      form.checkValidity === false ||
+      !isGuestCountValid() ||
+      !isCheckOutDateValid()
+    ) {
+      e.stopPropagation();
+    } else {
+      setIsSubmitted(true);
     }
     setIsValidated(true);
-  }
+  };
 
-  const handleBooking = async()=>{
-    try{
-        const confirmationCode = await bookRoom(roomId, booking);
-        setIsSubmitted(true);
-    }catch(error){
-        setErrorMessage(error.message);
+  const handleBooking = async () => {
+    try {
+      const confirmationCode = await bookRoom(roomId, booking);
+      setIsSubmitted(true);
+      navigate("/", {state:{message:confirmationCode}})
+    } catch (error) {
+      setErrorMessage(error.message);
+      navigate("/", {state:{error:errorMessage}})
     }
-  }
-  
-  return (
-    <>
+  };
 
-    </>
-  );
+  return <></>;
 };
 
 export default BookingForm;
