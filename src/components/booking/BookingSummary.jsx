@@ -33,11 +33,11 @@ const BookingSummary = ({ booking, payment, isFormValid, onConfirm }) => {
       </p>
       <p>
         Ngày nhận phòng:{" "}
-        <strong>{moment(booking.checkInDate).format("MM DD YYYY")}</strong>
+        <strong>{moment(booking.checkInDate).format("MMM Do YYYY")}</strong>
       </p>
       <p>
         Ngày trả phòng:{" "}
-        <strong>{moment(booking.checkOutDate).format("MM DD YYYY")}</strong>
+        <strong>{moment(booking.checkOutDate).format("MMM Do YYYY")}</strong>
       </p>
       <p>
         Số ngày ở: <strong>{numOfDays}</strong>
@@ -53,7 +53,7 @@ const BookingSummary = ({ booking, payment, isFormValid, onConfirm }) => {
       </div>
       {payment > 0 ? (
         <>
-            <p>Tổng thanh toán: <strong>{payment}VNĐ</strong></p>
+            <p>Tổng thanh toán: <strong> {payment}VNĐ </strong></p>
             {isFormValid && !isBookingConfirmed ? (
                 <button variant="success" onClick={handleConfirmBooking}>
                     {isProcessingPayment ? (
@@ -61,15 +61,25 @@ const BookingSummary = ({ booking, payment, isFormValid, onConfirm }) => {
                             <span className="spinner-border spinner-border-sm mr-2"
                                 role="status"
                                 aria-hidden="true"
-                                
                             ></span>
+                            Booking confirmed, redirecting to pay ment
                         </>
+                    ) : (
+                      "Confirm Booking and procesed to payment"
                     )}
                 </button>
-            )}
-
-
+            ): isBookingConfirmed ? (
+              <div className="d-flex justify-content-center align-items-center">
+                <div className="spinner-border text-primary" role="status">
+                  <span className="sr-only">Loading</span>
+                </div>
+              </div>
+            ) : null}
         </>
+      ) : (
+        <p className="text-danger"> 
+          Ngày trả phòng phải trước ngày đặt phòng
+        </p>
       )}
     </div>
   );

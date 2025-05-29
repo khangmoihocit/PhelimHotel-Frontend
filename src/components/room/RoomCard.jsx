@@ -15,23 +15,25 @@ const RoomCard = ({ room }) => {
     <Col key={room.id} className="mb-4" xs={12} md={6} lg={4}>
       <Card className="h-100 room-card shadow-sm">
         <div className="room-image-container">
-          <Card.Img
-            variant="top"
-            src={
-              room.photo &&
-              room.photo !== "undefined" &&
-              room.photo !== undefined &&
-              room.photo.trim() !== ""
-                ? `data:image/jpeg;base64,${room.photo}`
-                : "/placeholder-room.svg"
-            }
-            alt="Room photo"
-            className="room-image"
-            onError={(e) => {
-              console.log("Image failed to load, using placeholder");
-              e.target.src = "/placeholder-room.svg";
-            }}
-          />
+          <Link to={`/book-room/${room.id}`}>
+            <Card.Img
+              variant="top"
+              src={
+                room.photo &&
+                room.photo !== "undefined" &&
+                room.photo !== undefined &&
+                room.photo.trim() !== ""
+                  ? `data:image/jpeg;base64,${room.photo}`
+                  : "/placeholder-room.svg"
+              }
+              alt="Room photo"
+              className="room-image"
+              onError={(e) => {
+                console.log("Image failed to load, using placeholder");
+                e.target.src = "/placeholder-room.svg";
+              }}
+            />
+          </Link>
         </div>
         <Card.Body className="d-flex flex-column">
           <div className="room-info mb-3">
@@ -47,7 +49,7 @@ const RoomCard = ({ room }) => {
           </div>
           <div className="mt-auto">
             <Link
-              to={`bookings/${room.id}`}
+              to={`/book-room/${room.id}`}
               className="btn btn-hotel w-100 py-2 fw-semibold"
             >
               Xem Chi Tiết & Đặt Phòng

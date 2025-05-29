@@ -12,6 +12,7 @@ import Footer from "./components/layout/Footer";
 import RoomListing from "./components/room/RoomListing";
 import Admin from "./components/admin/Admin";
 import ScrollToTop from "./components/common/ScrollToTop";
+import Checkout from "./components/booking/Checkout";
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
             <Route path="/add-room" element={<AddRoom />} />
             <Route path="/browse-all-rooms" element={<RoomListing />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/book-room/:roomId" element={<Checkout />} />
           </Routes>
         </main>
         <Footer />

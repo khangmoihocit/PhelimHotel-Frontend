@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { bookRoom, getRoomById } from "../utils/ApiFunctions";
 import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
+import { Form, FormControl } from "react-bootstrap";
+import BookingSummary from "./BookingSummary";
 
 const BookingForm = () => {
   const [isValidated, setIsValidated] = useState(false);
@@ -83,14 +85,144 @@ const BookingForm = () => {
     try {
       const confirmationCode = await bookRoom(roomId, booking);
       setIsSubmitted(true);
-      navigate("/", {state:{message:confirmationCode}})
+      navigate("/", { state: { message: confirmationCode } });
     } catch (error) {
       setErrorMessage(error.message);
-      navigate("/", {state:{error:errorMessage}})
+      navigate("/", { state: { error: errorMessage } });
     }
   };
 
-  return <></>;
+  return (
+    <>
+      <div className="container mb-5">
+        <div className="row">
+          <div className="col-md-6">
+            <div className="card card-body mt-5">
+              <h4 className="card card-title">Reserve Room</h4>
+              <Form noValidate validated={isValidated} onSubmit={handleSubmit}>
+                <Form.Group>
+                  <Form.Label htmlFor="guestName"> Họ và tên:</Form.Label>
+                  <FormControl
+                    required
+                    type="text"
+                    id="guestName"
+                    name="guestName"
+                    value={booking.guestName}
+                    placeholder="Nhập họ và tên"
+                    onChange={handleInputChange}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Vui lòng nhập họ và tên
+                  </Form.Control.Feedback>
+                </Form.Group>
+
+                <fieldset>
+                  <legend>Lodgin period</legend>
+                  <div className="row">
+                    <div className="col-6">
+                      <Form.Label htmlFor="checkInDate">
+                        {" "}
+                        Ngày nhận phòng:
+                      </Form.Label>
+                      <FormControl
+                        required
+                        type="text"
+                        id="checkInDate"
+                        name="checkInDate"
+                        value={booking.checkInDate}
+                        placeholder="Nhập ngày nhận phòng"
+                        onChange={handleInputChange}
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        Vui lòng nhập ngày nhận phòng
+                      </Form.Control.Feedback>
+                    </div>
+
+                    <div className="col-6">
+                      <Form.Label htmlFor="checkOutDate">
+                        Ngày nhận phòng:
+                      </Form.Label>
+                      <FormControl
+                        required
+                        type="text"
+                        id="checkOutDate"
+                        name="checkOutDate"
+                        value={booking.checkOutDate}
+                        placeholder="Nhập ngày nhận phòng"
+                        onChange={handleInputChange}
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        Vui lòng nhập ngày trả phòng
+                      </Form.Control.Feedback>
+                    </div>
+                    {errorMessage && (
+                      <p className="error-message text-danger">
+                        {errorMessage}
+                      </p>
+                    )}
+                  </div>
+                </fieldset>
+
+                <fieldset>
+                  <legend>Số khách</legend>
+
+                  <div className="col-6">
+                    <Form.Label htmlFor="numberOfAdults">
+                      Số người lớn:
+                    </Form.Label>
+                    <FormControl
+                      required
+                      type="number"
+                      id="numberOfAdults"
+                      name="numberOfAdults"
+                      value={booking.numberOfAdults}
+                      placeholder="0"
+                      min={1}
+                      onChange={handleInputChange}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      Vui lòng nhập ít nhận 1 người lớn
+                    </Form.Control.Feedback>
+                  </div>
+
+                  <div className="col-6">
+                    <Form.Label htmlFor="numberOfChildren">
+                      Số trẻ nhỏ:
+                    </Form.Label>
+                    <FormControl
+                      required
+                      type="number"
+                      id="numberOfChildren"
+                      name="numberOfChildren"
+                      value={booking.numberOfChildren}
+                      placeholder="0"
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </fieldset>
+
+                <div className="form-group mt-2 mb-2">
+                  <button className="btn btn-hotel" type="submit">
+                    Tiếp tục
+                  </button>
+                </div>
+              </Form>
+            </div>
+          </div>
+          <div className="col-md-6">
+            {isSubmitted && (
+              <BookingSummary
+                booking={booking}
+                payment={calculatePayment}
+                isFormValid={isValidated}
+                onConfirm={handleBooking}
+              />
+            )}
+          </div>
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default BookingForm;
