@@ -63,7 +63,7 @@ const RoomCarousel = () => {
               {rooms.slice(index * 3, index * 3 + 3).map((room) => (
                 <Col key={room.id} lg={4} md={6} xs={12}>
                   <Card className="room-card featured-room-card h-100">
-                    <div className="room-image-container">
+                    <Link to={`/book-room/${room.id}`} className="room-image-container">
                       <img
                         src={
                           room.photo 
@@ -76,7 +76,7 @@ const RoomCarousel = () => {
                       <div className="room-badge">
                         <span className="badge bg-primary">Nổi bật</span>
                       </div>
-                    </div>
+                    </Link>
                     <Card.Body className="d-flex flex-column">
                       <div className="room-info flex-grow-1">
                         <Card.Title className="room-type mb-2">

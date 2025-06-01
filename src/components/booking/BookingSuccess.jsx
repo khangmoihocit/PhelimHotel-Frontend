@@ -6,7 +6,6 @@ const BookingSuccess = () => {
   const location = useLocation();
   const message = location.state?.message;
   const error = location.state?.error;
-  const bookingData = location.state?.bookingData;
 
   return (
     <div className="container mt-5">
