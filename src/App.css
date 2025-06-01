@@ -43,12 +43,12 @@
 }
 
 .btn-hotel, .btn-success, .btn-primary {
-  transition: background 0.2s, color 0.2s;
+  transition: all 0.3s ease;
 }
 
 .btn-hotel:hover, .btn-success:hover, .btn-primary:hover {
-  filter: brightness(0.95);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  filter: brightness(1.1);
+  transform: translateY(-2px);
 }
 
 input[type="file"]::-webkit-file-upload-button {

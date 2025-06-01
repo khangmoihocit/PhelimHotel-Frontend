@@ -12,20 +12,23 @@ const BookingSummary = ({
 }) => {
   const checkInDate = moment(booking.checkInDate);
   const checkOutDate = moment(booking.checkOutDate);
-  const numOfDays = checkOutDate.diff(checkInDate, "days");  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
-  const navigate = useNavigate();const handleConfirmBooking = async () => {
+  const numOfDays = checkOutDate.diff(checkInDate, "days");
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+  const navigate = useNavigate();
+  
+  const handleConfirmBooking = async () => {
     setIsProcessingPayment(true);
     try {
       await onConfirm(); // Gọi hàm handleBooking từ BookingForm
     } catch (error) {
       setIsProcessingPayment(false);
       // Lỗi sẽ được xử lý trong BookingForm
-    }  };
+    }
+  };
 
   return (
     <div className="card card-body mt-5">
       <h4>Thông tin đặt phòng</h4>
-
       {roomInfo && (
         <div className="mb-3">
           <h5>Thông tin phòng</h5>
@@ -40,7 +43,6 @@ const BookingSummary = ({
           </p>
         </div>
       )}
-
       <div className="mb-3">
         <h5>Thông tin khách hàng</h5>
         <p>
@@ -50,7 +52,6 @@ const BookingSummary = ({
           Email: <strong>{booking.guestEmail}</strong>
         </p>
       </div>
-
       <div className="mb-3">
         <h5>Thông tin lưu trú</h5>
         <p>
@@ -64,7 +65,8 @@ const BookingSummary = ({
         <p>
           Số ngày ở: <strong>{numOfDays}</strong>
         </p>
-      </div>      <div className="mb-3">
+      </div>{" "}
+      <div className="mb-3">
         <h5>Số khách</h5>
         <p>
           Người lớn: <strong>{parseInt(booking.numberOfAdults) || 1}</strong>
@@ -80,7 +82,8 @@ const BookingSummary = ({
             <p className="h4 text-primary mb-0">
               {payment.toLocaleString("vi-VN")} VNĐ
             </p>
-          </div>          {isFormValid ? (
+          </div>
+          {isFormValid ? (
             <button
               className="btn btn-success btn-lg w-100"
               onClick={handleConfirmBooking}
