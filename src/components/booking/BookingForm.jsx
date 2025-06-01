@@ -10,8 +10,8 @@ const BookingForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [roomPrice, setRoomPrice] = useState(0);
-  const [booking, setBooking] = useState({
-    guestName: "",
+  const [booking, setBooking] = useState({ //request
+    guestFullName: "",
     guestEmail: "",
     checkInDate: "",
     checkOutDate: "",
@@ -47,6 +47,7 @@ const BookingForm = () => {
     }
     setErrorMessage("");
   };
+
   //lấy giá phòng đang được chọn đặt
   useEffect(() => {
     getRoomPriceById(roomId);
@@ -109,7 +110,6 @@ const BookingForm = () => {
 
   const handleBooking = async () => {
     try {
-      // Prepare complete booking data
       const bookingData = {
         ...booking,
         numberOfAdults: parseInt(booking.numberOfAdults) || 1,
@@ -144,13 +144,13 @@ const BookingForm = () => {
               <h4 className="card card-title">Reserve Room</h4>
               <Form noValidate validated={isValidated} onSubmit={handleSubmit}>
                 <Form.Group>
-                  <Form.Label htmlFor="guestName"> Họ và tên:</Form.Label>
+                  <Form.Label htmlFor="guestFullName"> Họ và tên:</Form.Label>
                   <FormControl
                     required
                     type="text"
-                    id="guestName"
-                    name="guestName"
-                    value={booking.guestName}
+                    id="guestFullName"
+                    name="guestFullName"
+                    value={booking.guestFullName}
                     placeholder="Nhập họ và tên"
                     onChange={handleInputChange}
                   />
