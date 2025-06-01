@@ -25,87 +25,157 @@ const BookingSummary = ({
       // Lỗi sẽ được xử lý trong BookingForm
     }
   };
-
   return (
-    <div className="card card-body mt-5">
-      <h4>Thông tin đặt phòng</h4>
+    <div className="booking-summary-container">
+      {/* Room Information Section */}
       {roomInfo && (
-        <div className="mb-3">
-          <h5>Thông tin phòng</h5>
-          <p>
-            Loại phòng: <strong>{roomInfo.roomType}</strong>
-          </p>
-          <p>
-            Giá phòng:{" "}
-            <strong>
-              {roomInfo.roomPrice?.toLocaleString("vi-VN")} VNĐ/đêm
-            </strong>
-          </p>
+        <div className="summary-section room-info-section">
+          <div className="row align-items-center">
+            <div className="col-md-4">
+              <div className="room-image-summary">
+                <img 
+                  src={`data:image/jpg;base64, ${roomInfo.photo}`}
+                  alt="Ảnh phòng"
+                  className="img-fluid rounded"
+                />
+              </div>
+            </div>
+            <div className="col-md-8">
+              <h5 className="section-title">🏨 Thông tin phòng</h5>
+              <div className="info-grid">
+                <div className="info-item">
+                  <span className="info-label">Loại phòng:</span>
+                  <span className="info-value">{roomInfo.roomType}</span>
+                </div>
+                <div className="info-item">
+                  <span className="info-label">Giá phòng:</span>
+                  <span className="info-value price-highlight">
+                    {roomInfo.roomPrice?.toLocaleString("vi-VN")} VNĐ/đêm
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       )}
-      <div className="mb-3">
-        <h5>Thông tin khách hàng</h5>
-        <p>
-          Họ và tên: <strong>{booking.guestName}</strong>
-        </p>
-        <p>
-          Email: <strong>{booking.guestEmail}</strong>
-        </p>
-      </div>
-      <div className="mb-3">
-        <h5>Thông tin lưu trú</h5>
-        <p>
-          Ngày nhận phòng:{" "}
-          <strong>{moment(booking.checkInDate).format("DD/MM/YYYY")}</strong>
-        </p>
-        <p>
-          Ngày trả phòng:{" "}
-          <strong>{moment(booking.checkOutDate).format("DD/MM/YYYY")}</strong>
-        </p>
-        <p>
-          Số ngày ở: <strong>{numOfDays}</strong>
-        </p>
-      </div>{" "}
-      <div className="mb-3">
-        <h5>Số khách</h5>
-        <p>
-          Người lớn: <strong>{parseInt(booking.numberOfAdults) || 1}</strong>
-        </p>
-        <p>
-          Trẻ con: <strong>{parseInt(booking.numberOfChildren) || 0}</strong>
-        </p>
-      </div>
-      {payment > 0 ? (
-        <>
-          <div className="mb-3 p-3 bg-light border rounded">
-            <h5>Tổng chi phí</h5>
-            <p className="h4 text-primary mb-0">
-              {payment.toLocaleString("vi-VN")} VNĐ
-            </p>
+
+      {/* Guest Information Section */}
+      <div className="summary-section guest-info-section">
+        <h5 className="section-title">👤 Thông tin khách hàng</h5>
+        <div className="row">
+          <div className="col-md-6">
+            <div className="info-item">
+              <span className="info-label">Họ và tên:</span>
+              <span className="info-value">{booking.guestFullName}</span>
+            </div>
           </div>
-          {isFormValid ? (
-            <button
-              className="btn btn-success btn-lg w-100"
-              onClick={handleConfirmBooking}
-              disabled={isProcessingPayment}
-            >
-              {isProcessingPayment ? (
-                <>
-                  <span
-                    className="spinner-border spinner-border-sm me-2"
-                    role="status"
-                    aria-hidden="true"
-                  ></span>
-                  Đang xử lý...
-                </>
-              ) : (
-                "Xác nhận đặt phòng và thanh toán"
-              )}
-            </button>
-          ) : null}
-        </>
+          <div className="col-md-6">
+            <div className="info-item">
+              <span className="info-label">Email:</span>
+              <span className="info-value">{booking.guestEmail}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Stay Information Section */}
+      <div className="summary-section stay-info-section">
+        <h5 className="section-title">📅 Thông tin lưu trú</h5>
+        <div className="row">
+          <div className="col-md-4">
+            <div className="info-item">
+              <span className="info-label">Ngày nhận phòng:</span>
+              <span className="info-value">{moment(booking.checkInDate).format("DD/MM/YYYY")}</span>
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="info-item">
+              <span className="info-label">Ngày trả phòng:</span>
+              <span className="info-value">{moment(booking.checkOutDate).format("DD/MM/YYYY")}</span>
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="info-item">
+              <span className="info-label">Số ngày ở:</span>
+              <span className="info-value nights-highlight">{numOfDays} đêm</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Guest Count Section */}
+      <div className="summary-section guest-count-section">
+        <h5 className="section-title">👥 Số khách</h5>
+        <div className="row">
+          <div className="col-md-6">
+            <div className="info-item">
+              <span className="info-label">Người lớn:</span>
+              <span className="info-value">{parseInt(booking.numberOfAdults) || 1}</span>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="info-item">
+              <span className="info-label">Trẻ em:</span>
+              <span className="info-value">{parseInt(booking.numberOfChildren) || 0}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Payment Section */}
+      {payment > 0 ? (
+        <div className="summary-section payment-section">
+          <div className="payment-breakdown">
+            <div className="payment-item">
+              <span>Giá phòng × {numOfDays} đêm:</span>
+              <span>{payment.toLocaleString("vi-VN")} VNĐ</span>
+            </div>
+            <hr className="payment-divider" />
+            <div className="payment-total">
+              <h5 className="section-title">💰 Tổng chi phí</h5>
+              <h3 className="total-amount">{payment.toLocaleString("vi-VN")} VNĐ</h3>
+            </div>
+          </div>
+          
+          {isFormValid && (
+            <div className="confirm-section">
+              <button
+                className="btn btn-confirm btn-lg w-100"
+                onClick={handleConfirmBooking}
+                disabled={isProcessingPayment}
+              >
+                {isProcessingPayment ? (
+                  <>
+                    <span
+                      className="spinner-border spinner-border-sm me-2"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                    Đang xử lý thanh toán...
+                  </>
+                ) : (
+                  <>
+                    <i className="fas fa-credit-card me-2"></i>
+                    Xác nhận đặt phòng và thanh toán
+                  </>
+                )}
+              </button>
+              <div className="payment-note">
+                <small className="text-muted">
+                  <i className="fas fa-shield-alt me-1"></i>
+                  Thông tin thanh toán được bảo mật an toàn
+                </small>
+              </div>
+            </div>
+          )}
+        </div>
       ) : (
-        <p className="text-danger">Có lỗi trong thông tin đặt phòng</p>
+        <div className="summary-section error-section">
+          <div className="alert alert-danger">
+            <i className="fas fa-exclamation-triangle me-2"></i>
+            Có lỗi trong thông tin đặt phòng. Vui lòng kiểm tra lại.
+          </div>
+        </div>
       )}
     </div>
   );
