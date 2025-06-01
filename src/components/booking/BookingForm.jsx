@@ -15,8 +15,8 @@ const BookingForm = () => {
     guestEmail: "",
     checkInDate: "",
     checkOutDate: "",
-    numberOfAdults: 1,
-    numberOfChildren: 0,
+    numberOfAdults: "",
+    numberOfChildren: "",
   });
   const [roomInfo, setRoomInfo] = useState({
     photo: "",
@@ -25,26 +25,18 @@ const BookingForm = () => {
   });
   const { roomId } = useParams();
   const navigate = useNavigate();
+
   const getRoomPriceById = async (roomId) => {
     try {
       const response = await getRoomById(roomId);
       setRoomPrice(response.roomPrice);
-      setRoomInfo({
-        photo: response.photo,
-        roomType: response.roomType,
-        roomPrice: response.roomPrice,
-      });
     } catch (error) {
-      setErrorMessage("Không thể lấy thông tin phòng: " + error.message);
+      throw new Error(error);
     }
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (name === "numberOfAdults" || name === "numberOfChildren") {
-      setBooking({ ...booking, [name]: parseInt(value) || 0 });
-    } else {
-      setBooking({ ...booking, [name]: value });
-    }
+    setBooking({ ...booking, [name]: value });
     setErrorMessage("");
   };
   //lấy giá phòng đang được chọn đặt
@@ -55,83 +47,48 @@ const BookingForm = () => {
   const calculatePayment = () => {
     const checkInDate = moment(booking.checkInDate);
     const checkOutDate = moment(booking.checkOutDate);
-    const diffInDays = checkOutDate.diff(checkInDate, "days"); //khoảng cách giữa 2 ngày
+    const diffInDays = checkOutDate.diff(checkInDate); //khoảng cách giữa 2 ngày
     const price = roomPrice ? roomPrice : 0;
     return diffInDays * price;
   };
 
   const isGuestCountValid = () => {
-    const adultCount = parseInt(booking.numberOfAdults) || 0;
-    const childrenCount = parseInt(booking.numberOfChildren) || 0;
+    const adultCount = parseInt(booking.numberOfAdults);
+    const childrenCount = parseInt(booking.numberOfChildren);
     const totalCount = adultCount + childrenCount;
-    if (adultCount < 1) {
-      setErrorMessage("Phải có ít nhất 1 người lớn");
-      return false;
-    }
     return totalCount >= 1 && adultCount >= 1;
   };
-
   const isCheckOutDateValid = () => {
-    const today = moment().startOf("day");
-    const checkInDate = moment(booking.checkInDate);
-    const checkOutDate = moment(booking.checkOutDate);
-
-    if (checkInDate.isBefore(today)) {
-      setErrorMessage("Ngày nhận phòng không thể ở quá khứ");
+    if (!moment(booking.checkOutDate).isSameOrAfter(booking.checkInDate)) {
+      setErrorMessage("Ngày đặt phòng phải trước ngày nhận phòng");
       return false;
     }
-
-    if (!checkOutDate.isAfter(checkInDate)) {
-      setErrorMessage("Ngày trả phòng phải sau ngày nhận phòng");
-      return false;
-    }
-
     return true;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.currentTarget;
-
-    setIsValidated(true);
-
     if (
       form.checkValidity() === false ||
       !isGuestCountValid() ||
       !isCheckOutDateValid()
     ) {
       e.stopPropagation();
-      return;
+    } else {
+      setIsSubmitted(true);
     }
-
-    setIsSubmitted(true);
+    setIsValidated(true);
   };
 
   const handleBooking = async () => {
     try {
-      // Prepare complete booking data
-      const bookingData = {
-        ...booking,
-        numberOfAdults: parseInt(booking.numberOfAdults) || 1,
-        numberOfChildren: parseInt(booking.numberOfChildren) || 0,
-        totalPayment: calculatePayment(),
-        roomPrice: roomInfo.roomPrice,
-        numOfDays: moment(booking.checkOutDate).diff(
-          moment(booking.checkInDate),
-          "days"
-        ),
-      };
-
-      const confirmationCode = await bookRoom(roomId, bookingData);
+      const confirmationCode = await bookRoom(roomId, booking);
       setIsSubmitted(true);
-      navigate("/booking-success", {
-        state: { message: confirmationCode, bookingData },
-      });
-      
+      navigate("/", { state: { message: confirmationCode } });
     } catch (error) {
-      const errorMsg = error.message || "Có lỗi xảy ra khi đặt phòng";
-      setErrorMessage(errorMsg);
-      navigate("/booking-success", { state: { error: errorMsg } });
+      setErrorMessage(error.message);
+      navigate("/", { state: { error: errorMessage } });
     }
   };
 
@@ -174,7 +131,7 @@ const BookingForm = () => {
                   </Form.Control.Feedback>
                 </Form.Group>
 
-                <fieldset style={{ border: "2px" }}>
+                <fieldset style={{border: "2px"}}>
                   <legend>Lodgin period</legend>
                   <div className="row">
                     <div className="col-6">
@@ -258,24 +215,26 @@ const BookingForm = () => {
                 </fieldset>
 
                 <div className="form-group mt-2 mb-2">
-                  <button type="submit" className="btn btn-hotel">
+                  <button type="submit" className="btn btn-hotel" >
                     Tiếp tục
                   </button>
                 </div>
+
               </Form>
             </div>
           </div>
+
           <div className="col-md-6">
             {isSubmitted && (
               <BookingSummary
                 booking={booking}
-                payment={calculatePayment()}
+                payment={calculatePayment}
                 isFormValid={isValidated}
-                onConfirm={handleBooking}
-                roomInfo={roomInfo}
+                onConfirm = {handleBooking}
               />
             )}
           </div>
+
         </div>
       </div>
     </>

@@ -6,7 +6,9 @@ const Admin = () => {
         <section className='container'>
             <h2>Trang điều khiển admin</h2>
             <hr />
-            <Link to={"/add-room"}>Thêm phòng</Link>
+            <Link to={"/existing-rooms"}>Quản lý phòng</Link>
+            <hr />
+            <Link to={"/existing-bookings"}>Quản lý đặt phòng</Link>
         </section>
     );
 };
