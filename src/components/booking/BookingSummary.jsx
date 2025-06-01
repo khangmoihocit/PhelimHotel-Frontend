@@ -15,7 +15,7 @@ const BookingSummary = ({
   const numOfDays = checkOutDate.diff(checkInDate, "days");
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   const navigate = useNavigate();
-  
+
   const handleConfirmBooking = async () => {
     setIsProcessingPayment(true);
     try {
@@ -27,101 +27,84 @@ const BookingSummary = ({
   };
   return (
     <div className="booking-summary-container">
+      {" "}
       {/* Room Information Section */}
       {roomInfo && (
         <div className="summary-section room-info-section">
-          <div className="row align-items-center">
-            <div className="col-md-4">
-              <div className="room-image-summary">
-                <img 
-                  src={`data:image/jpg;base64, ${roomInfo.photo}`}
-                  alt="Ảnh phòng"
-                  className="img-fluid rounded"
-                />
-              </div>
+          <h6 className="section-title-small">Thông tin phòng</h6>
+          <div className="info-grid">
+            <div className="info-item">
+              <span className="info-label">Loại phòng:</span>
+              <span className="info-value">{roomInfo.roomType}</span>
             </div>
-            <div className="col-md-8">
-              <h5 className="section-title">🏨 Thông tin phòng</h5>
-              <div className="info-grid">
-                <div className="info-item">
-                  <span className="info-label">Loại phòng:</span>
-                  <span className="info-value">{roomInfo.roomType}</span>
-                </div>
-                <div className="info-item">
-                  <span className="info-label">Giá phòng:</span>
-                  <span className="info-value price-highlight">
-                    {roomInfo.roomPrice?.toLocaleString("vi-VN")} VNĐ/đêm
-                  </span>
-                </div>
-              </div>
+            <div className="info-item">
+              <span className="info-label">Giá phòng:</span>
+              <span className="info-value price-highlight">
+                {roomInfo.roomPrice?.toLocaleString("vi-VN")} VNĐ/đêm
+              </span>
             </div>
           </div>
         </div>
-      )}
-
+      )}{" "}
       {/* Guest Information Section */}
       <div className="summary-section guest-info-section">
-        <h5 className="section-title">👤 Thông tin khách hàng</h5>
-        <div className="row">
-          <div className="col-md-6">
-            <div className="info-item">
-              <span className="info-label">Họ và tên:</span>
-              <span className="info-value">{booking.guestFullName}</span>
-            </div>
+        <h6 className="section-title-small">Thông tin khách hàng</h6>
+        <div className="info-grid">
+          <div className="info-item">
+            <span className="info-label">Họ và tên:</span>
+            <span className="info-value">{booking.guestFullName}</span>
           </div>
-          <div className="col-md-6">
-            <div className="info-item">
-              <span className="info-label">Email:</span>
-              <span className="info-value">{booking.guestEmail}</span>
-            </div>
+          <div className="info-item">
+            <span className="info-label">Email:</span>
+            <span className="info-value">{booking.guestEmail}</span>
           </div>
         </div>
       </div>
-
       {/* Stay Information Section */}
       <div className="summary-section stay-info-section">
-        <h5 className="section-title">📅 Thông tin lưu trú</h5>
-        <div className="row">
-          <div className="col-md-4">
-            <div className="info-item">
-              <span className="info-label">Ngày nhận phòng:</span>
-              <span className="info-value">{moment(booking.checkInDate).format("DD/MM/YYYY")}</span>
-            </div>
+        <h6 className="section-title-small">Thông tin lưu trú</h6>
+        <div className="info-grid">
+          <div className="info-item">
+            <span className="info-label">Ngày nhận phòng:</span>
+            <span className="info-value">
+              {moment(booking.checkInDate).format("DD/MM/YYYY")}
+            </span>
           </div>
-          <div className="col-md-4">
-            <div className="info-item">
-              <span className="info-label">Ngày trả phòng:</span>
-              <span className="info-value">{moment(booking.checkOutDate).format("DD/MM/YYYY")}</span>
-            </div>
+          <div className="info-item">
+            <span className="info-label">Ngày trả phòng:</span>
+            <span className="info-value">
+              {moment(booking.checkOutDate).format("DD/MM/YYYY")}
+            </span>
           </div>
-          <div className="col-md-4">
-            <div className="info-item">
-              <span className="info-label">Số ngày ở:</span>
-              <span className="info-value nights-highlight">{numOfDays} đêm</span>
-            </div>
+          <div className="info-item">
+            <span className="info-label">Số ngày ở:</span>
+            <span className="info-value nights-highlight">{numOfDays} đêm</span>
           </div>
         </div>
-      </div>
-
+      </div>{" "}
       {/* Guest Count Section */}
       <div className="summary-section guest-count-section">
-        <h5 className="section-title">👥 Số khách</h5>
+        <h6 className="section-title-small">Số khách</h6>
+
         <div className="row">
           <div className="col-md-6">
             <div className="info-item">
               <span className="info-label">Người lớn:</span>
-              <span className="info-value">{parseInt(booking.numberOfAdults) || 1}</span>
+              <span className="info-value">
+                {parseInt(booking.numberOfAdults) || 1}
+              </span>
             </div>
           </div>
           <div className="col-md-6">
             <div className="info-item">
               <span className="info-label">Trẻ em:</span>
-              <span className="info-value">{parseInt(booking.numberOfChildren) || 0}</span>
+              <span className="info-value">
+                {parseInt(booking.numberOfChildren) || 0}
+              </span>
             </div>
           </div>
         </div>
       </div>
-
       {/* Payment Section */}
       {payment > 0 ? (
         <div className="summary-section payment-section">
@@ -130,13 +113,15 @@ const BookingSummary = ({
               <span>Giá phòng × {numOfDays} đêm:</span>
               <span>{payment.toLocaleString("vi-VN")} VNĐ</span>
             </div>
-            <hr className="payment-divider" />
+            <hr className="payment-divider" />{" "}
             <div className="payment-total">
-              <h5 className="section-title">💰 Tổng chi phí</h5>
-              <h3 className="total-amount">{payment.toLocaleString("vi-VN")} VNĐ</h3>
+              <h6 className="section-title-small">Tổng chi phí</h6>
+              <h3 className="total-amount">
+                {payment.toLocaleString("vi-VN")} VNĐ
+              </h3>
             </div>
           </div>
-          
+
           {isFormValid && (
             <div className="confirm-section">
               <button
