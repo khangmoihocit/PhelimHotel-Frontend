@@ -3,12 +3,11 @@ import { Card, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const RoomCard = ({ room }) => {
-  // Debug logging (remove this in production)
-  console.log("Room data:", room);
 
-  // Ensure room object exists and has required properties
+
+
   if (!room || !room.id) {
-    return null; // Don't render anything if room data is invalid
+    return null; 
   }
 
   return (
