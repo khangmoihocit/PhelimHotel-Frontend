@@ -37,7 +37,7 @@ const Navbar = () => {
                 to={"/browse-all-rooms"}
               >
                 <span className="nav-icon">🛏️</span>
-                Duyệt Phòng
+                Tất Cả Phòng
               </NavLink>
             </li>
             <li className="nav-item">

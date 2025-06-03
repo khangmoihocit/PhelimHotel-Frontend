@@ -4,6 +4,9 @@ import { useParams } from "react-router-dom";
 import { getRoomById } from "../utils/ApiFunctions";
 import { FaCar, FaTv, FaUtensils, FaWifi } from "react-icons/fa";
 import RoomCarousel from "../common/RoomCarousel";
+import LoadingSpinner from "../common/LoadingSpinner";
+import ErrorDisplay from "../common/ErrorDisplay";
+import "../../assets/styles/checkout-modern.css";
 
 const Checkout = () => {
   const [error, setError] = useState("");
@@ -29,62 +32,85 @@ const Checkout = () => {
         });
     }, 2000);
   }, [roomId]);
-
   return (
-    <div>
-      <section className="container">
-        <div className="row flex-column flex-md-row align-items-center">
-          <div className="col-md-4 mt-5 mb-5">
-            {isLoading ? (
-                <p>Đang tải thông tin phòng...</p>
-            ) : error ? (
-                <p>{error}</p>
-            ) : (
-                <div className="room-info">
-                    <img src={`data:image/jpg;base64, ${roomInfo.photo}`}
-                     alt="Ảnh phòng"
-                     style={{width:"100%", height:"auto"}} />
-                     <table style={{border:"2px", margin:"30px 0 0 0"}}>
-                        <tbody>
-                            <tr>
-                                <th>Loại phòng: </th>
-                                <th>{roomInfo.roomType} </th>
-                            </tr>
-                            <tr>
-                                <th>Giá phòng: </th>
-                                <th>{roomInfo.roomPrice} </th>
-                            </tr>
-                            <tr>
-                                <th>Dịch vụ:</th>
-                                <th>
-                                    <ul className="list-unstyled">
-                                        <li>
-                                            <FaWifi /> Wifi
-                                        </li>
-                                        <li>
-                                            <FaTv /> Netfilx Premium
-                                        </li>
-                                        <li>
-                                            <FaUtensils /> Ăn sáng
-                                        </li>
-                                        <li>
-                                            <FaCar /> Dịch vụ xe
-                                        </li>
-                                    </ul>
-                                </th>
-                            </tr>
-                        </tbody>
-                     </table>
-                </div>
-            )}
+    <div className="checkout-page">
+      {/* Header Section */}
+      <div className="container">
+        <div className="checkout-header">
+          <h1 className="checkout-title">Đặt Phòng Khách Sạn</h1>
+          <p className="checkout-subtitle">
+            Hoàn tất thông tin để xác nhận đặt phòng của bạn. 
+            Chúng tôi cam kết mang đến trải nghiệm tuyệt vời nhất.
+          </p>
+        </div>
+      </div>      {/* Main Content */}
+      <div className="container-fluid px-3">
+        <div className="row">
+          {/* Compact Room Information - Side Panel */}
+          <div className="col-lg-4 col-md-12 mb-4">
+            <div className="room-info-sidebar">
+              {isLoading ? (
+                <LoadingSpinner text="Đang tải thông tin phòng..." />
+              ) : error ? (
+                <ErrorDisplay error={error} />
+              ) : (
+                <>
+                  {/* Compact Room Image */}
+                  <div className="room-image-compact">
+                    <img 
+                      src={`data:image/jpg;base64, ${roomInfo.photo}`}
+                      alt="Ảnh phòng"
+                      className="room-image"
+                    />
+                    <div className="room-price-badge">
+                      {roomInfo.roomPrice?.toLocaleString('vi-VN')} VNĐ/đêm
+                    </div>
+                  </div>
+
+                  {/* Compact Room Details */}
+                  <div className="room-details-compact">
+                    <h4 className="room-type-title">{roomInfo.roomType}</h4>
+                    
+                    {/* Compact Services */}
+                    <div className="services-compact">
+                      <div className="service-item-compact">
+                        <FaWifi className="service-icon" />
+                        <span>WiFi miễn phí</span>
+                      </div>
+                      <div className="service-item-compact">
+                        <FaTv className="service-icon" />
+                        <span>Netflix Premium</span>
+                      </div>
+                      <div className="service-item-compact">
+                        <FaUtensils className="service-icon" />
+                        <span>Ăn sáng buffet</span>
+                      </div>
+                      <div className="service-item-compact">
+                        <FaCar className="service-icon" />
+                        <span>Đưa đón</span>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
-          <div className="col-md-8">
-            <BookingForm />
+
+          {/* Full-width Booking Form */}
+          <div className="col-lg-8 col-md-12">
+            <div className="booking-form-fullwidth">
+              <BookingForm roomInfo={roomInfo} />
+            </div>
           </div>
         </div>
-      </section>
+      </div>
+
+      {/* Related Rooms */}
       <div className="container">
-        <RoomCarousel/>
+        <div className="related-rooms-section">
+          <h3 className="section-title">Khám phá các phòng khác</h3>
+          <RoomCarousel />
+        </div>
       </div>
     </div>
   );

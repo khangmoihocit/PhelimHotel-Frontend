@@ -14,6 +14,7 @@ import './Testimonials.css';
 import './Gallery.css';
 import './Newsletter.css';
 import './CTA.css';
+import RoomSearch from '../common/RoomSearch';
 
 const Home = () => {
     return (
@@ -22,7 +23,7 @@ const Home = () => {
             <HeaderMain />
             
             {/* Quick Booking Section */}
-            <QuickBooking />
+            <RoomSearch />
 
             {/* Featured Rooms Section */}
             <section className="featured-rooms-section py-5">

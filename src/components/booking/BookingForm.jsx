@@ -4,14 +4,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 import { Form, FormControl } from "react-bootstrap";
 import BookingSummary from "./BookingSummary";
+import "../../assets/styles/booking-layout.css";
 
-const BookingForm = () => {
+const BookingForm = ({ roomInfo: propRoomInfo }) => {
   const [isValidated, setIsValidated] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [roomPrice, setRoomPrice] = useState(0);
-  const [booking, setBooking] = useState({
-    guestName: "",
+  const [booking, setBooking] = useState({ //request
+    guestFullName: "",
     guestEmail: "",
     checkInDate: "",
     checkOutDate: "",
@@ -25,6 +26,20 @@ const BookingForm = () => {
   });
   const { roomId } = useParams();
   const navigate = useNavigate();
+
+  // Effect to handle body scroll when modal is open
+  useEffect(() => {
+    if (isSubmitted) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+    }
+    
+    // Cleanup function
+    return () => {
+      document.body.classList.remove('modal-open');
+    };
+  }, [isSubmitted]);
   const getRoomPriceById = async (roomId) => {
     try {
       const response = await getRoomById(roomId);
@@ -47,10 +62,15 @@ const BookingForm = () => {
     }
     setErrorMessage("");
   };
-  //lấy giá phòng đang được chọn đặt
+  // Use room info from props if available, otherwise fetch
   useEffect(() => {
-    getRoomPriceById(roomId);
-  }, [roomId]);
+    if (propRoomInfo && propRoomInfo.roomPrice) {
+      setRoomInfo(propRoomInfo);
+      setRoomPrice(propRoomInfo.roomPrice);
+    } else {
+      getRoomPriceById(roomId);
+    }
+  }, [roomId, propRoomInfo]);
 
   const calculatePayment = () => {
     const checkInDate = moment(booking.checkInDate);
@@ -109,7 +129,6 @@ const BookingForm = () => {
 
   const handleBooking = async () => {
     try {
-      // Prepare complete booking data
       const bookingData = {
         ...booking,
         numberOfAdults: parseInt(booking.numberOfAdults) || 1,
@@ -134,151 +153,164 @@ const BookingForm = () => {
       navigate("/booking-success", { state: { error: errorMsg } });
     }
   };
-
   return (
-    <>
-      <div className="container mb-5">
-        <div className="row">
-          <div className="col-md-6">
-            <div className="card card-body mt-5">
-              <h4 className="card card-title">Reserve Room</h4>
-              <Form noValidate validated={isValidated} onSubmit={handleSubmit}>
-                <Form.Group>
-                  <Form.Label htmlFor="guestName"> Họ và tên:</Form.Label>
-                  <FormControl
-                    required
-                    type="text"
-                    id="guestName"
-                    name="guestName"
-                    value={booking.guestName}
-                    placeholder="Nhập họ và tên"
-                    onChange={handleInputChange}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Vui lòng nhập họ và tên
-                  </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label htmlFor="guestEmail"> Email:</Form.Label>
-                  <FormControl
-                    required
-                    type="email"
-                    id="guestEmail"
-                    name="guestEmail"
-                    value={booking.guestEmail}
-                    placeholder="Nhập email"
-                    onChange={handleInputChange}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Vui lòng nhập email
-                  </Form.Control.Feedback>
-                </Form.Group>
+    <div className="booking-form-layout">
+      {!isSubmitted ? (
+        // Booking Form
+        <div className="booking-form-section">
+          <div className="card card-body">
+            <h4 className="card-title text-center mb-4">Thông tin đặt phòng</h4>
+            <Form noValidate validated={isValidated} onSubmit={handleSubmit}>
+              <div className="row">
+                <div className="col-md-6">
+                  <Form.Group className="mb-3">
+                    <Form.Label htmlFor="guestFullName">Họ và tên:</Form.Label>
+                    <FormControl
+                      required
+                      type="text"
+                      id="guestFullName"
+                      name="guestFullName"
+                      value={booking.guestFullName}
+                      placeholder="Nhập họ và tên"
+                      onChange={handleInputChange}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      Vui lòng nhập họ và tên
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                </div>
+                
+                <div className="col-md-6">
+                  <Form.Group className="mb-3">
+                    <Form.Label htmlFor="guestEmail">Email:</Form.Label>
+                    <FormControl
+                      required
+                      type="email"
+                      id="guestEmail"
+                      name="guestEmail"
+                      value={booking.guestEmail}
+                      placeholder="Nhập email"
+                      onChange={handleInputChange}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      Vui lòng nhập email
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                </div>
+              </div>
 
-                <fieldset style={{ border: "2px" }}>
-                  <legend>Lodgin period</legend>
-                  <div className="row">
-                    <div className="col-6">
-                      <Form.Label htmlFor="checkInDate">
-                        Ngày nhận phòng:
-                      </Form.Label>
+              <fieldset style={{ border: "2px solid #ddd", borderRadius: "8px", padding: "1rem", marginBottom: "1rem" }}>
+                <legend style={{ padding: "0 0.5rem", fontSize: "1rem", fontWeight: "600" }}>Thời gian lưu trú</legend>
+                <div className="row">
+                  <div className="col-md-6">
+                    <Form.Group className="mb-3">
+                      <Form.Label htmlFor="checkInDate">Ngày nhận phòng:</Form.Label>
                       <FormControl
                         required
                         type="date"
                         id="checkInDate"
                         name="checkInDate"
                         value={booking.checkInDate}
-                        placeholder="Nhập ngày nhận phòng"
                         onChange={handleInputChange}
                       />
                       <Form.Control.Feedback type="invalid">
                         Vui lòng nhập ngày nhận phòng
                       </Form.Control.Feedback>
-                    </div>
+                    </Form.Group>
+                  </div>
 
-                    <div className="col-6">
-                      <Form.Label htmlFor="checkOutDate">
-                        Ngày trả phòng:
-                      </Form.Label>
+                  <div className="col-md-6">
+                    <Form.Group className="mb-3">
+                      <Form.Label htmlFor="checkOutDate">Ngày trả phòng:</Form.Label>
                       <FormControl
                         required
                         type="date"
                         id="checkOutDate"
                         name="checkOutDate"
                         value={booking.checkOutDate}
-                        placeholder="Nhập ngày nhận phòng"
                         onChange={handleInputChange}
                       />
                       <Form.Control.Feedback type="invalid">
                         Vui lòng nhập ngày trả phòng
                       </Form.Control.Feedback>
-                    </div>
-                    {errorMessage && (
-                      <p className="error-message text-danger">
-                        {errorMessage}
-                      </p>
-                    )}
+                    </Form.Group>
                   </div>
-                </fieldset>
-
-                <fieldset>
-                  <legend>Số khách</legend>
-
-                  <div className="col-6">
-                    <Form.Label htmlFor="numberOfAdults">
-                      Số người lớn:
-                    </Form.Label>
-                    <FormControl
-                      required
-                      type="number"
-                      id="numberOfAdults"
-                      name="numberOfAdults"
-                      value={booking.numberOfAdults}
-                      placeholder="0"
-                      min={1}
-                      onChange={handleInputChange}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      Vui lòng nhập ít nhận 1 người lớn
-                    </Form.Control.Feedback>
-                  </div>
-
-                  <div className="col-6">
-                    <Form.Label htmlFor="numberOfChildren">
-                      Số trẻ nhỏ:
-                    </Form.Label>
-                    <FormControl
-                      type="number"
-                      id="numberOfChildren"
-                      name="numberOfChildren"
-                      value={booking.numberOfChildren}
-                      placeholder="0"
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                </fieldset>
-
-                <div className="form-group mt-2 mb-2">
-                  <button type="submit" className="btn btn-hotel">
-                    Tiếp tục
-                  </button>
                 </div>
-              </Form>
-            </div>
-          </div>{" "}
-          <div className="col-md-6">
-            {isSubmitted && (
-              <BookingSummary
-                booking={booking}
-                payment={calculatePayment()}
-                isFormValid={isValidated}
-                onConfirm={handleBooking}
-                roomInfo={roomInfo}
-              />
-            )}
+                {errorMessage && (
+                  <p className="error-message text-danger">{errorMessage}</p>
+                )}
+              </fieldset>
+
+              <fieldset style={{ border: "2px solid #ddd", borderRadius: "8px", padding: "1rem", marginBottom: "1rem" }}>
+                <legend style={{ padding: "0 0.5rem", fontSize: "1rem", fontWeight: "600" }}>Số khách</legend>
+                <div className="row">
+                  <div className="col-md-6">
+                    <Form.Group className="mb-3">
+                      <Form.Label htmlFor="numberOfAdults">Số người lớn:</Form.Label>
+                      <FormControl
+                        required
+                        type="number"
+                        id="numberOfAdults"
+                        name="numberOfAdults"
+                        value={booking.numberOfAdults}
+                        placeholder="1"
+                        min={1}
+                        onChange={handleInputChange}
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        Vui lòng nhập ít nhất 1 người lớn
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                  </div>
+
+                  <div className="col-md-6">
+                    <Form.Group className="mb-3">
+                      <Form.Label htmlFor="numberOfChildren">Số trẻ nhỏ:</Form.Label>
+                      <FormControl
+                        type="number"
+                        id="numberOfChildren"
+                        name="numberOfChildren"
+                        value={booking.numberOfChildren}
+                        placeholder="0"
+                        min={0}
+                        onChange={handleInputChange}
+                      />
+                    </Form.Group>
+                  </div>
+                </div>
+              </fieldset>
+
+              <div className="text-center">
+                <button type="submit" className="btn btn-hotel btn-lg px-5">
+                  Xem thông tin đặt phòng
+                </button>
+              </div>
+            </Form>
           </div>
         </div>
-      </div>
-    </>
+      ) : (
+        // Full-width BookingSummary
+        <div className="booking-summary-fullwidth">
+          <div className="d-flex justify-content-between align-items-center mb-4">
+            <h3 className="mb-0">Xác nhận thông tin đặt phòng</h3>
+            <button 
+              className="btn btn-outline-secondary"
+              onClick={() => setIsSubmitted(false)}
+            >
+              ← Quay lại chỉnh sửa
+            </button>
+          </div>
+          
+          <BookingSummary
+            booking={booking}
+            payment={calculatePayment()}
+            isFormValid={isValidated}
+            onConfirm={handleBooking}
+            roomInfo={roomInfo}
+          />
+        </div>
+      )}
+    </div>
   );
 };
 
