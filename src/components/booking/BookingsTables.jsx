@@ -26,6 +26,7 @@ const BookingsTables = ({bookingInfo, handleBookingCancellation}) => {
                         <th>STT</th>
                         <th>Mã đặt phòng</th>
                         <th>Mã phòng</th>
+                        <th>Loại phòng</th>
                         <th>Ngày nhận phòng</th>
                         <th>Ngày trả phòng</th>
                         <th>Tên khách hàng</th>
@@ -44,6 +45,7 @@ const BookingsTables = ({bookingInfo, handleBookingCancellation}) => {
                                 <td>{index + 1}</td>
                                 <td>{booking.bookingId}</td>
                                 <td>{booking.roomResponse.id}</td>
+                                <td>{booking.roomResponse.roomType}</td>
                                 <td>{booking.checkInDate}</td>
                                 <td>{booking.checkOutDate}</td>
                                 <td>{booking.guestFullName}</td>

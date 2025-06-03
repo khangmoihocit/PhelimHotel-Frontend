@@ -6,7 +6,7 @@ import RoomPaginator from "./RoomPaginator";
 const RoomSearchResult = ({ results, onClearSearch }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const resultsPerPage = 3;
-  const totalResults = results.length();
+  const totalResults = results.length;
   const totalPages = Math.ceil(totalResults / resultsPerPage);
 
   const handlePageChange = (pageNumber) => {
@@ -21,17 +21,16 @@ const RoomSearchResult = ({ results, onClearSearch }) => {
     <>
       {results.length > 0 ? (
         <>
-          <h5 className="text-center mt-5">Kết quả tìm kiếm</h5>
-          <Row>
-            {paginatedResult.map((room) => {
+          <h5 className="text-center mt-5">Kết quả tìm kiếm</h5>          <Row>
+            {paginatedResult.map((room) => (
               <RoomCard key={room.id} room={room} />
-            })}
+            ))}
           </Row>
           <Row>
-            {totalPages > resultsPerPage && (
+            {totalPages > 1 && (
                 <RoomPaginator currentPage={currentPage} totalPage={totalPages} onPageChange={handlePageChange}/>
             )}
-            <Button variant="secondary" onClick={onClearSearch}>Hủy</Button>
+            <Button variant="secondary" onClick={onClearSearch}>Clear</Button>
           </Row>
         </>
       ) : (

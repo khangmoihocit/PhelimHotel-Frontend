@@ -107,3 +107,9 @@ export const cancelBooking = async bookingId=>{
 
   }
 }
+
+export const getAvailableRooms = async (checkInDate, checkOutDate, roomType)=>{
+  const result = await api.get(`rooms/available-rooms?checkInDate=${checkInDate}&checkOutDate=${checkOutDate}&roomType=${roomType}`)
+  console.log(checkInDate)
+  return result;
+}
