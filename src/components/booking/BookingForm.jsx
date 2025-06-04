@@ -11,13 +11,15 @@ const BookingForm = ({ roomInfo: propRoomInfo }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [roomPrice, setRoomPrice] = useState(0);
-  const [booking, setBooking] = useState({ //request
+  const [booking, setBooking] = useState({
+    //request
     guestFullName: "",
     guestEmail: "",
     checkInDate: "",
     checkOutDate: "",
     numberOfAdults: 1,
     numberOfChildren: 0,
+    totalNumOfGuest: "",
   });
   const [roomInfo, setRoomInfo] = useState({
     photo: "",
@@ -30,14 +32,14 @@ const BookingForm = ({ roomInfo: propRoomInfo }) => {
   // Effect to handle body scroll when modal is open
   useEffect(() => {
     if (isSubmitted) {
-      document.body.classList.add('modal-open');
+      document.body.classList.add("modal-open");
     } else {
-      document.body.classList.remove('modal-open');
+      document.body.classList.remove("modal-open");
     }
-    
+
     // Cleanup function
     return () => {
-      document.body.classList.remove('modal-open');
+      document.body.classList.remove("modal-open");
     };
   }, [isSubmitted]);
   const getRoomPriceById = async (roomId) => {
@@ -55,14 +57,31 @@ const BookingForm = ({ roomInfo: propRoomInfo }) => {
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    let updatedBooking = { ...booking };
+
     if (name === "numberOfAdults" || name === "numberOfChildren") {
-      setBooking({ ...booking, [name]: parseInt(value) || 0 });
+      updatedBooking[name] = parseInt(value) || 0;
     } else {
-      setBooking({ ...booking, [name]: value });
+      updatedBooking[name] = value;
     }
+
+    // Tự động tính totalNumOfGuest khi numberOfAdults hoặc numberOfChildren thay đổi
+    if (name === "numberOfAdults" || name === "numberOfChildren") {
+      const adults =
+        name === "numberOfAdults"
+          ? parseInt(value) || 0
+          : updatedBooking.numberOfAdults;
+      const children =
+        name === "numberOfChildren"
+          ? parseInt(value) || 0
+          : updatedBooking.numberOfChildren;
+      updatedBooking.totalNumOfGuest = adults + children;
+    }
+
+    setBooking(updatedBooking);
     setErrorMessage("");
   };
-  // Use room info from props if available, otherwise fetch
+  
   useEffect(() => {
     if (propRoomInfo && propRoomInfo.roomPrice) {
       setRoomInfo(propRoomInfo);
@@ -71,6 +90,16 @@ const BookingForm = ({ roomInfo: propRoomInfo }) => {
       getRoomPriceById(roomId);
     }
   }, [roomId, propRoomInfo]);
+
+  // Tính totalNumOfGuest khi component mount
+  useEffect(() => {
+    const adults = parseInt(booking.numberOfAdults) || 1;
+    const children = parseInt(booking.numberOfChildren) || 0;
+    setBooking((prev) => ({
+      ...prev,
+      totalNumOfGuest: adults + children,
+    }));
+  }, []); // Chỉ chạy 1 lần khi component mount
 
   const calculatePayment = () => {
     const checkInDate = moment(booking.checkInDate);
@@ -126,13 +155,17 @@ const BookingForm = ({ roomInfo: propRoomInfo }) => {
 
     setIsSubmitted(true);
   };
-
   const handleBooking = async () => {
     try {
+      const numberOfAdults = parseInt(booking.numberOfAdults) || 1;
+      const numberOfChildren = parseInt(booking.numberOfChildren) || 0;
+      const totalNumOfGuest = numberOfAdults + numberOfChildren;
+
       const bookingData = {
         ...booking,
-        numberOfAdults: parseInt(booking.numberOfAdults) || 1,
-        numberOfChildren: parseInt(booking.numberOfChildren) || 0,
+        numberOfAdults,
+        numberOfChildren,
+        totalNumOfGuest,
         totalPayment: calculatePayment(),
         roomPrice: roomInfo.roomPrice,
         numOfDays: moment(booking.checkOutDate).diff(
@@ -141,12 +174,13 @@ const BookingForm = ({ roomInfo: propRoomInfo }) => {
         ),
       };
 
+      console.log("Sending booking data:", bookingData); // Debug log
+
       const confirmationCode = await bookRoom(roomId, bookingData);
       setIsSubmitted(true);
       navigate("/booking-success", {
         state: { message: confirmationCode, bookingData },
       });
-      
     } catch (error) {
       const errorMsg = error.message || "Có lỗi xảy ra khi đặt phòng";
       setErrorMessage(errorMsg);
@@ -179,7 +213,7 @@ const BookingForm = ({ roomInfo: propRoomInfo }) => {
                     </Form.Control.Feedback>
                   </Form.Group>
                 </div>
-                
+
                 <div className="col-md-6">
                   <Form.Group className="mb-3">
                     <Form.Label htmlFor="guestEmail">Email:</Form.Label>
@@ -199,12 +233,29 @@ const BookingForm = ({ roomInfo: propRoomInfo }) => {
                 </div>
               </div>
 
-              <fieldset style={{ border: "2px solid #ddd", borderRadius: "8px", padding: "1rem", marginBottom: "1rem" }}>
-                <legend style={{ padding: "0 0.5rem", fontSize: "1rem", fontWeight: "600" }}>Thời gian lưu trú</legend>
+              <fieldset
+                style={{
+                  border: "2px solid #ddd",
+                  borderRadius: "8px",
+                  padding: "1rem",
+                  marginBottom: "1rem",
+                }}
+              >
+                <legend
+                  style={{
+                    padding: "0 0.5rem",
+                    fontSize: "1rem",
+                    fontWeight: "600",
+                  }}
+                >
+                  Thời gian lưu trú
+                </legend>
                 <div className="row">
                   <div className="col-md-6">
                     <Form.Group className="mb-3">
-                      <Form.Label htmlFor="checkInDate">Ngày nhận phòng:</Form.Label>
+                      <Form.Label htmlFor="checkInDate">
+                        Ngày nhận phòng:
+                      </Form.Label>
                       <FormControl
                         required
                         type="date"
@@ -221,7 +272,9 @@ const BookingForm = ({ roomInfo: propRoomInfo }) => {
 
                   <div className="col-md-6">
                     <Form.Group className="mb-3">
-                      <Form.Label htmlFor="checkOutDate">Ngày trả phòng:</Form.Label>
+                      <Form.Label htmlFor="checkOutDate">
+                        Ngày trả phòng:
+                      </Form.Label>
                       <FormControl
                         required
                         type="date"
@@ -241,12 +294,29 @@ const BookingForm = ({ roomInfo: propRoomInfo }) => {
                 )}
               </fieldset>
 
-              <fieldset style={{ border: "2px solid #ddd", borderRadius: "8px", padding: "1rem", marginBottom: "1rem" }}>
-                <legend style={{ padding: "0 0.5rem", fontSize: "1rem", fontWeight: "600" }}>Số khách</legend>
+              <fieldset
+                style={{
+                  border: "2px solid #ddd",
+                  borderRadius: "8px",
+                  padding: "1rem",
+                  marginBottom: "1rem",
+                }}
+              >
+                <legend
+                  style={{
+                    padding: "0 0.5rem",
+                    fontSize: "1rem",
+                    fontWeight: "600",
+                  }}
+                >
+                  Số khách
+                </legend>
                 <div className="row">
                   <div className="col-md-6">
                     <Form.Group className="mb-3">
-                      <Form.Label htmlFor="numberOfAdults">Số người lớn:</Form.Label>
+                      <Form.Label htmlFor="numberOfAdults">
+                        Số người lớn:
+                      </Form.Label>
                       <FormControl
                         required
                         type="number"
@@ -265,7 +335,9 @@ const BookingForm = ({ roomInfo: propRoomInfo }) => {
 
                   <div className="col-md-6">
                     <Form.Group className="mb-3">
-                      <Form.Label htmlFor="numberOfChildren">Số trẻ nhỏ:</Form.Label>
+                      <Form.Label htmlFor="numberOfChildren">
+                        Số trẻ nhỏ:
+                      </Form.Label>
                       <FormControl
                         type="number"
                         id="numberOfChildren"
@@ -293,14 +365,14 @@ const BookingForm = ({ roomInfo: propRoomInfo }) => {
         <div className="booking-summary-fullwidth">
           <div className="d-flex justify-content-between align-items-center mb-4">
             <h3 className="mb-0">Xác nhận thông tin đặt phòng</h3>
-            <button 
+            <button
               className="btn btn-outline-secondary"
               onClick={() => setIsSubmitted(false)}
             >
               ← Quay lại chỉnh sửa
             </button>
           </div>
-          
+
           <BookingSummary
             booking={booking}
             payment={calculatePayment()}
