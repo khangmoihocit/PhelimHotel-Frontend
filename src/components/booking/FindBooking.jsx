@@ -11,7 +11,7 @@ const FindBooking = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [bookingInfo, setBookingInfo] = useState({
     bookingId: "",
-    roomResponse: { id: "" },
+    roomResponse: { id: "", roomType:"" },
     bookingConfirmationCode: "",
     roomNumber: "",
     checkInDate: "",
@@ -19,12 +19,12 @@ const FindBooking = () => {
     guestFullName: "",
     guestEmail: "",
     numOfAdults: "",
-    numOfChidren: "",
+    numOfChildren: "",
     totalNumOfGuest: "",
   });
   const clearBookingInfo = {
     bookingId: "",
-    roomResponse: { id: "" },
+    roomResponse: { id: "", roomType:"" },
     bookingConfirmationCode: "",
     roomNumber: "",
     checkInDate: "",
@@ -106,12 +106,13 @@ const FindBooking = () => {
             <p>Code đặt phòng: {bookingInfo.bookingConfirmationCode}</p>
             <p>Mã đặt phòng: {bookingInfo.bookingId}</p>
             <p>Mã phòng: {bookingInfo.roomResponse.id}</p>
+            <p>Loại phòng: {bookingInfo.roomResponse.roomType}</p>
             <p>Ngày nhận phòng: {bookingInfo.checkInDate}</p>
             <p>Ngày trả phòng: {bookingInfo.checkOutDate}</p>
             <p>Tên người đặt: {bookingInfo.guestFullName}</p>
             <p>Email: {bookingInfo.guestEmail}</p>
             <p>Số người lớn: {bookingInfo.numOfAdults}</p>
-            <p>Số trẻ em: {bookingInfo.numOfChidren}</p>
+            <p>Số trẻ em: {bookingInfo.numOfChildren}</p>
             <p>Tổng người ở: {bookingInfo.totalNumOfGuest}</p>
 
             {!isDeleted && (
