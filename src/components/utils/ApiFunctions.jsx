@@ -118,27 +118,37 @@ export const cancelBooking = async bookingId=>{
 }
 
 export const getAvailableRooms = async (checkInDate, checkOutDate, roomType)=>{
-  const result = await api.get(`rooms/available-rooms?checkInDate=${checkInDate}&checkOutDate=${checkOutDate}&roomType=${roomType}`)
-  console.log(checkInDate)
+  const result = await api.get(`rooms/available-rooms?checkInDate=${checkInDate}&checkOutDate=${checkOutDate}&roomType=${roomType}`);
   return result;
 }
 
 
-/* This function register a new user */
 export async function registerUser(registration) {
 	try {
 		const response = await api.post("/auth/register-user", registration)
-		return response.data
+		return response.data;
 	} catch (error) {
-		if (error.reeponse && error.response.data) {
-			throw new Error(error.response.data)
+		if (error.response) {
+			if (error.response.data) {
+				if (typeof error.response.data === 'string') {
+					throw new Error(error.response.data);
+				} else if (error.response.data.message) {
+					throw new Error(error.response.data.message);
+				} else {
+					throw new Error(`Lỗi đăng ký: ${error.response.status}`);
+				}
+			} else {
+				throw new Error(`Lỗi server: ${error.response.status}`);
+			}
+		} else if (error.request) {
+			throw new Error("Không thể kết nối đến server. Vui lòng kiểm tra kết nối mạng.");
 		} else {
-			throw new Error(`User registration error : ${error.message}`)
+			throw new Error(error.message || "Có lỗi không xác định xảy ra");
 		}
 	}
 }
 
-/* This function login a registered user */
+
 export async function loginUser(login) {
 	try {
 		const response = await api.post("/auth/login", login)
@@ -153,7 +163,7 @@ export async function loginUser(login) {
 	}
 }
 
-/*  This is function to get the user profile */
+
 export async function getUserProfile(userId, token) {
 	try {
 		const response = await api.get(`users/profile/${userId}`, {
@@ -165,7 +175,6 @@ export async function getUserProfile(userId, token) {
 	}
 }
 
-/* This isthe function to delete a user */
 export async function deleteUser(userId) {
 	try {
 		const response = await api.delete(`/users/delete/${userId}`, {
@@ -177,7 +186,7 @@ export async function deleteUser(userId) {
 	}
 }
 
-/* This is the function to get a single user */
+
 export async function getUser(userId, token) {
 	try {
 		const response = await api.get(`/users/${userId}`, {
@@ -189,7 +198,6 @@ export async function getUser(userId, token) {
 	}
 }
 
-/* This is the function to get user bookings by the user id */
 export async function getBookingsByUserId(userId, token) {
 	try {
 		const response = await api.get(`/bookings/user/${userId}/bookings`, {

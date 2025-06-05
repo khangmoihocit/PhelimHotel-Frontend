@@ -15,7 +15,6 @@ const Registration = () => {
 	const handleInputChange = (e) => {
 		setRegistration({ ...registration, [e.target.name]: e.target.value })
 	}
-
 	const handleRegistration = async (e) => {
 		e.preventDefault()
 		try {
@@ -25,7 +24,8 @@ const Registration = () => {
 			setRegistration({ name:"", email: "", password: "" })
 		} catch (error) {
 			setSuccessMessage("")
-			setErrorMessage(`Registration error : ${error.message}`)
+			// Chỉ hiển thị message từ backend, không thêm prefix "Lỗi đăng ký"
+			setErrorMessage(error.message)
 		}
 		setTimeout(() => {
 			setErrorMessage("")

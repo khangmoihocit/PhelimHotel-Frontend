@@ -126,7 +126,7 @@ const Profile = () => {
                           Họ và tên: 
                         </label>
                         <div className="col-md-10">
-                          <p className="card-text">{user.lastName}</p>
+                          <p className="card-text">{user.name}</p>
                         </div>
                       </div>
                       <hr />

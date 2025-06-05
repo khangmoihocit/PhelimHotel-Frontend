@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import Logout from "../auth/Logout";
-import { getUser } from "../utils/ApiFunctions";
+import { useAuth } from "../auth/AuthProvider";
 import "./Navbar.css";
 
 const Navbar = () => {
   const [showAccount, setShowAccount] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [forceUpdate, setForceUpdate] = useState(0); // Force update trigger
+  const { user, userName } = useAuth(); // Sử dụng AuthContext
   
   const handleAccountClick = () => {
     setShowAccount(!showAccount);
@@ -22,14 +24,35 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-  // Get authentication state from localStorage
-  const token = localStorage.getItem("token");
-  const userRole = localStorage.getItem("userRole");
-  const userId = localStorage.getItem("userId");
-  const userName = localStorage.getItem("userName");
-  
-  const isLoggedIn = !!token;
-  const isAdmin = userRole === "ROLE_ADMIN";
+  // Force re-render when authentication state changes
+  useEffect(() => {
+    // Component sẽ tự động re-render khi user hoặc userName từ AuthContext thay đổi
+  }, [user, userName]);
+
+  // Listen for storage changes to force update
+  useEffect(() => {
+    const handleStorageChange = () => {
+      console.log("Storage changed, forcing update");
+      setForceUpdate(prev => prev + 1);
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Custom event for same-tab storage changes  
+    const handleCustomStorageChange = () => {
+      setForceUpdate(prev => prev + 1);
+    };
+    
+    window.addEventListener('localStorageChange', handleCustomStorageChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('localStorageChange', handleCustomStorageChange);
+    };
+  }, []);// Get authentication state from AuthContext only
+  const isLoggedIn = !!user;
+  // Fix: Check roles properly - could be array or string
+  const isAdmin = user?.roles === "ROLE_ADMIN" || (Array.isArray(user?.roles) && user?.roles.includes("ROLE_ADMIN"));
 
   // Get display name for account dropdown
   const getAccountDisplayName = () => {
@@ -37,17 +60,11 @@ const Navbar = () => {
       return `Xin chào, ${userName}`;
     }
     return "Tài Khoản";
-  };
+  };  
 
-  // Debug logging
-  console.log("Navbar Debug:", {
-    token: !!token,
-    userRole,
-    userId,
-    userName,
-    isLoggedIn,
-    isAdmin
-  });
+
+
+
   return (
     <nav className={`navbar navbar-expand-lg navbar-custom fixed-top shadow-lg ${scrolled ? 'scrolled' : ''}`}>
       <div className="container">

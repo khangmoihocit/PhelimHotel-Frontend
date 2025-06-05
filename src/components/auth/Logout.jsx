@@ -5,8 +5,9 @@ import { useNavigate } from "react-router-dom"
 const Logout = () => {
 	const auth = useContext(AuthContext)
 	const navigate = useNavigate()
-
 	const handleLogout = () => {
+		// Clear userName từ localStorage
+		localStorage.removeItem("userName");
 		auth.handleLogout()
 		navigate("/", { state: { message: "Đăng xuất thành công!" } })
 	}

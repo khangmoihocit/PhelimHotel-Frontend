@@ -16,17 +16,16 @@ const Login = () => {
 
   const handleInputChange = (e) => {
     setLogin({ ...login, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
+  };  const handleSubmit = async (e) => {
     e.preventDefault();
     const success = await loginUser(login);
     if (success) {
       const token = success.token;
-      auth.handleLogin(token);
+      // Truyền thông tin user để AuthProvider có thể lưu userName
+      auth.handleLogin(token, success);
       navigate(redirectUrl, { replace: true });
     } else {
-      setErrorMessage("Invalid username or password. Please try again.");
+      setErrorMessage("Tài khoản hoặc mật khẩu không chính xác. Vui lòng thử lại!");
     }
     setTimeout(() => {
       setErrorMessage("");
@@ -37,7 +36,7 @@ const Login = () => {
     <section className="container col-6 mt-5 mb-5">
       {errorMessage && <p className="alert alert-danger">{errorMessage}</p>}
       <h2>Login</h2>
-      <form action="" onSubmit={handleLogin}>
+      <form action="" onSubmit={handleSubmit}>
         <div className="row mb-3">
           <label htmlFor="email" className="col-sm-2 col-form-label">
             Email
