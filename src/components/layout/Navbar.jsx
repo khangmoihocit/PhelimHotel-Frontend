@@ -12,7 +12,7 @@ const Navbar = () => {
       <div className="container">
         <Link to={"/"} className="navbar-brand">
           <div className="brand-container">
-            <span className="brand-icon">🏨</span>
+            <span className="brand-icon"></span>
             <span className="brand-text">Phelim Hotel</span>
           </div>
         </Link>
@@ -36,7 +36,7 @@ const Navbar = () => {
                 className="nav-link nav-link-custom"
                 to={"/browse-all-rooms"}
               >
-                <span className="nav-icon">🛏️</span>
+                <span className="nav-icon"></span>
                 Tất Cả Phòng
               </NavLink>
             </li>
@@ -45,7 +45,7 @@ const Navbar = () => {
                 className="nav-link nav-link-custom"
                 to={"/admin"}
               >
-                <span className="nav-icon">⚙️</span>
+                <span className="nav-icon"></span>
                 Admin
               </NavLink>
             </li>
@@ -54,7 +54,7 @@ const Navbar = () => {
           <ul className="navbar-nav">
             <li className="nav-item">
               <NavLink className="nav-link nav-link-custom" to={"/find-booking"}>
-                <span className="nav-icon">🔍</span>
+                <span className="nav-icon"></span>
                 Tìm Đặt Phòng
               </NavLink>
             </li>
@@ -70,27 +70,27 @@ const Navbar = () => {
                 aria-expanded="false"
                 onClick={handleAccountClick}
               >
-                <span className="nav-icon">👤</span>
+                <span className="nav-icon"></span>
                 Tài Khoản
               </a>
               <ul className={`dropdown-menu dropdown-menu-custom ${showAccount ? "show" : ""}`}
               aria-labelledby="accountDropdown">
                 <li>
                   <Link to={"/login"} className="dropdown-item dropdown-item-custom">
-                    <span className="dropdown-icon">🔐</span>
+                    <span className="dropdown-icon"></span>
                     Đăng Nhập
                   </Link>
                 </li>
                 <li>
                   <Link to={"/profile"} className="dropdown-item dropdown-item-custom">
-                    <span className="dropdown-icon">👤</span>
+                    <span className="dropdown-icon"></span>
                     Hồ Sơ
                   </Link>
                 </li>
                 <li><hr className="dropdown-divider" /></li>
                 <li>
                   <Link to={"/logout"} className="dropdown-item dropdown-item-custom">
-                    <span className="dropdown-icon">🚪</span>
+                    <span className="dropdown-icon"></span>
                     Đăng Xuất
                   </Link>
                 </li>
