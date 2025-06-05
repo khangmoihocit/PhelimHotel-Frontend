@@ -153,6 +153,7 @@ export async function loginUser(login) {
 	try {
 		const response = await api.post("/auth/login", login)
 		if (response.status >= 200 && response.status < 300) {
+			console.log("Login API Response:", response.data) // Debug log để xem cấu trúc response
 			return response.data
 		} else {
 			return null

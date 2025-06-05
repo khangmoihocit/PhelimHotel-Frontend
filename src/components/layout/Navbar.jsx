@@ -5,15 +5,8 @@ import { useAuth } from "../auth/AuthProvider";
 import "./Navbar.css";
 
 const Navbar = () => {
-  const [showAccount, setShowAccount] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [forceUpdate, setForceUpdate] = useState(0); // Force update trigger
-  const { user, userName } = useAuth(); // Sử dụng AuthContext
-  
-  const handleAccountClick = () => {
-    setShowAccount(!showAccount);
-  };
-
+  const { user } = useAuth(); // Sử dụng AuthContext
   // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
@@ -23,44 +16,10 @@ const Navbar = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-  // Force re-render when authentication state changes
-  useEffect(() => {
-    // Component sẽ tự động re-render khi user hoặc userName từ AuthContext thay đổi
-  }, [user, userName]);
-
-  // Listen for storage changes to force update
-  useEffect(() => {
-    const handleStorageChange = () => {
-      console.log("Storage changed, forcing update");
-      setForceUpdate(prev => prev + 1);
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-    
-    // Custom event for same-tab storage changes  
-    const handleCustomStorageChange = () => {
-      setForceUpdate(prev => prev + 1);
-    };
-    
-    window.addEventListener('localStorageChange', handleCustomStorageChange);
-    
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('localStorageChange', handleCustomStorageChange);
-    };
-  }, []);// Get authentication state from AuthContext only
+  }, []);  // Get authentication state from AuthContext
   const isLoggedIn = !!user;
-  // Fix: Check roles properly - could be array or string
+  // Check roles properly - could be array or string
   const isAdmin = user?.roles === "ROLE_ADMIN" || (Array.isArray(user?.roles) && user?.roles.includes("ROLE_ADMIN"));
-
-  // Get display name for account dropdown
-  const getAccountDisplayName = () => {
-    if (isLoggedIn && userName) {
-      return `Xin chào, ${userName}`;
-    }
-    return "Tài Khoản";
-  };  
 
 
 
@@ -109,62 +68,32 @@ const Navbar = () => {
                 </NavLink>
               </li>
             )}
-          </ul>
-
-          <ul className="navbar-nav">
+          </ul>          <ul className="navbar-nav">
             <li className="nav-item">
               <NavLink className="nav-link nav-link-custom" to={"/find-booking"}>
                 <span className="nav-icon">🔍</span>
                 Tìm Đặt Phòng
               </NavLink>
-            </li>
-            <li className="nav-item dropdown">              <a
-                className={`nav-link dropdown-toggle nav-link-custom ${
-                  showAccount ? "show" : ""
-                }`}
-                href="#"
-                id="accountDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-                onClick={handleAccountClick}
-              >
-                <span className="nav-icon">👤</span>
-                <span className="account-text">{getAccountDisplayName()}</span>
-              </a>
-              <ul className={`dropdown-menu dropdown-menu-custom ${showAccount ? "show" : ""}`}
-                  aria-labelledby="accountDropdown">
-                {!isLoggedIn ? (
-                  <>
-                    <li>
-                      <Link to={"/login"} className="dropdown-item dropdown-item-custom">
-                        <span className="dropdown-icon">🔐</span>
-                        Đăng Nhập
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to={"/register"} className="dropdown-item dropdown-item-custom">
-                        <span className="dropdown-icon">📝</span>
-                        Đăng Ký
-                      </Link>
-                    </li>
-                  </>
-                ) : (
-                  <>
-                    <li>
-                      <Link to={"/profile"} className="dropdown-item dropdown-item-custom">
-                        <span className="dropdown-icon">👤</span>
-                        Hồ Sơ
-                      </Link>
-                    </li>
-                    <li><hr className="dropdown-divider" /></li>
-                    <li className="dropdown-item dropdown-item-custom p-0">
-                      <Logout />
-                    </li>
-                  </>
-                )}
-              </ul>
-            </li>
+            </li>            {!isLoggedIn ? (
+              <li className="nav-item">
+                <NavLink className="nav-link nav-link-custom" to={"/login"}>
+                  <span className="nav-icon">🔐</span>
+                  Đăng Nhập
+                </NavLink>
+              </li>
+            ) : (
+              <>
+                <li className="nav-item">
+                  <NavLink className="nav-link nav-link-custom" to={"/profile"}>
+                    <span className="nav-icon">👤</span>
+                    Hồ Sơ
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <Logout />
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </div>

@@ -11,13 +11,14 @@ const Logout = () => {
 		auth.handleLogout()
 		navigate("/", { state: { message: "Đăng xuất thành công!" } })
 	}
+	
 	return (
 		<button 
-			className="dropdown-item dropdown-item-custom w-100 text-start border-0 bg-transparent" 
+			className="nav-link nav-link-custom btn btn-link p-0 border-0" 
 			onClick={handleLogout}
-			style={{ background: 'none', border: 'none', padding: '0.5rem 1rem' }}
+			style={{ background: 'none', border: 'none', textDecoration: 'none' }}
 		>
-			<span className="dropdown-icon">🚪</span>
+			<span className="nav-icon">🚪</span>
 			Đăng Xuất
 		</button>
 	)
