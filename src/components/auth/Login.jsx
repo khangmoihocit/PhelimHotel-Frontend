@@ -1,0 +1,83 @@
+import React, { useState } from "react";
+import { loginUser } from "../utils/ApiFunctions";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "./AuthProvider";
+
+const Login = () => {
+  const [errorMessage, setErrorMessage] = useState("");
+  const [login, setLogin] = useState({
+    email: "",
+    password: "",
+  });
+  const navigate = useNavigate();
+  const auth = useAuth();
+  const location = useLocation();
+  const redirectUrl = location.state?.path || "/";
+
+  const handleInputChange = (e) => {
+    setLogin({ ...login, [e.target.name]: e.target.value });
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const success = await loginUser(login);
+    if (success) {
+      console.log("Login response:", success); // Debug log
+      // Pass the full response to AuthProvider, not just the token
+      auth.handleLogin(success);
+      navigate(redirectUrl, { replace: true });
+    } else {
+      setErrorMessage("Tài khoản hoặc mật khẩu không đúng. Vui lòng thử lại!");
+    }
+    setTimeout(() => {
+      setErrorMessage("");
+    }, 4000);
+  };
+
+  return (
+    <section className="container col-6 mt-5 mb-5">
+      {errorMessage && <p className="alert alert-danger">{errorMessage}</p>}      <h2>Login</h2>
+      <form action="" onSubmit={handleSubmit}>
+        <div className="row mb-3">
+          <label htmlFor="email" className="col-sm-2 col-form-label">
+            Email
+          </label>
+          <div>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              className="form-control"
+              value={login.email}
+              onChange={handleInputChange}
+            />
+          </div>
+        </div>
+        <div className="row mb-3">
+          <label htmlFor="password" className="col-sm-2 col-form-label">
+            Mật khẩu
+          </label>
+          <div>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              className="form-control"
+              value={login.password}
+              onChange={handleInputChange}
+            />
+          </div>
+        </div>
+        <div className="mb-3">
+          <button type="submit" className="btn btn-hotel">
+            Đăng nhập
+          </button>
+          <span>
+            Bạn chưa có có tài khoản?<Link to={"/register"}>Đăng ký</Link>
+          </span>
+        </div>
+      </form>
+    </section>
+  );
+};
+
+export default Login;

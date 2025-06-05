@@ -81,26 +81,32 @@ const BookingSummary = ({
             <span className="info-value nights-highlight">{numOfDays} đêm</span>
           </div>
         </div>
-      </div>{" "}
-      {/* Guest Count Section */}
+      </div>{" "}      {/* Guest Count Section */}
       <div className="summary-section guest-count-section">
-        <h6 className="section-title-small">Số khách</h6>
-
-        <div className="row">
-          <div className="col-md-6">
-            <div className="info-item">
-              <span className="info-label">Người lớn:</span>
-              <span className="info-value">
-                {parseInt(booking.numberOfAdults) || 1}
-              </span>
-            </div>
+        <h6 className="section-title-small">👥 Số khách</h6>
+        <div className="info-grid">
+          <div className="info-item">
+            <span className="info-label">Tổng số khách:</span>
+            <span className="info-value total-guests-highlight">
+              {booking.totalNumOfGuest || (parseInt(booking.numberOfAdults) || 1) + (parseInt(booking.numberOfChildren) || 0)} người
+            </span>
           </div>
-          <div className="col-md-6">
-            <div className="info-item">
-              <span className="info-label">Trẻ em:</span>
-              <span className="info-value">
-                {parseInt(booking.numberOfChildren) || 0}
-              </span>
+          <div className="row">
+            <div className="col-md-6">
+              <div className="info-item">
+                <span className="info-label">Người lớn:</span>
+                <span className="info-value">
+                  {parseInt(booking.numberOfAdults) || 1}
+                </span>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="info-item">
+                <span className="info-label">Trẻ em:</span>
+                <span className="info-value">
+                  {parseInt(booking.numberOfChildren) || 0}
+                </span>
+              </div>
             </div>
           </div>
         </div>

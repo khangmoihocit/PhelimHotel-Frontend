@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import Logout from "../auth/Logout";
+import { AuthContext } from "../auth/AuthProvider";
 
 const Navbar = () => {
   const [showAccount, setShowAccount] = useState(false);
+  const { user } = useContext(AuthContext);
   const handleAccountClick = () => {
     setShowAccount(!showAccount);
   };
+
+  const isLoggedIn = user !== null;
+  const userRole = localStorage.getItem("userRole");
 
   return (
     <nav className="navbar navbar-expand-lg navbar-custom fixed-top shadow-lg">
@@ -28,7 +34,7 @@ const Navbar = () => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        
+
         <div className="collapse navbar-collapse" id="navbarScroll">
           <ul className="navbar-nav me-auto my-2 my-lg-0">
             <li className="nav-item">
@@ -40,20 +46,23 @@ const Navbar = () => {
                 Tất Cả Phòng
               </NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink
-                className="nav-link nav-link-custom"
-                to={"/admin"}
-              >
-                <span className="nav-icon">⚙️</span>
-                Admin
-              </NavLink>
-            </li>
+
+            {isLoggedIn && userRole === "ROLE_ADMIN" && (
+              <li className="nav-item">
+                <NavLink className="nav-link nav-link-custom" to={"/admin"}>
+                  <span className="nav-icon">⚙️</span>
+                  Admin
+                </NavLink>
+              </li>
+            )}
           </ul>
 
           <ul className="navbar-nav">
             <li className="nav-item">
-              <NavLink className="nav-link nav-link-custom" to={"/find-booking"}>
+              <NavLink
+                className="nav-link nav-link-custom"
+                to={"/find-booking"}
+              >
                 <span className="nav-icon">🔍</span>
                 Tìm Đặt Phòng
               </NavLink>
@@ -72,28 +81,52 @@ const Navbar = () => {
               >
                 <span className="nav-icon">👤</span>
                 Tài Khoản
-              </a>
-              <ul className={`dropdown-menu dropdown-menu-custom ${showAccount ? "show" : ""}`}
-              aria-labelledby="accountDropdown">
-                <li>
-                  <Link to={"/login"} className="dropdown-item dropdown-item-custom">
-                    <span className="dropdown-icon">🔐</span>
-                    Đăng Nhập
-                  </Link>
-                </li>
-                <li>
-                  <Link to={"/profile"} className="dropdown-item dropdown-item-custom">
-                    <span className="dropdown-icon">👤</span>
-                    Hồ Sơ
-                  </Link>
-                </li>
-                <li><hr className="dropdown-divider" /></li>
-                <li>
-                  <Link to={"/logout"} className="dropdown-item dropdown-item-custom">
-                    <span className="dropdown-icon">🚪</span>
-                    Đăng Xuất
-                  </Link>
-                </li>
+              </a>              <ul
+                className={`dropdown-menu dropdown-menu-custom ${
+                  showAccount ? "show" : ""
+                }`}
+                aria-labelledby="accountDropdown"
+              >
+                {!isLoggedIn ? (
+                  <>
+                    <li>
+                      <Link
+                        to={"/login"}
+                        className="dropdown-item dropdown-item-custom"
+                      >
+                        <span className="dropdown-icon">🔐</span>
+                        Đăng Nhập
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to={"/register"}
+                        className="dropdown-item dropdown-item-custom"
+                      >
+                        <span className="dropdown-icon">📝</span>
+                        Đăng Ký
+                      </Link>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li>
+                      <Link
+                        to={"/profile"}
+                        className="dropdown-item dropdown-item-custom"
+                      >
+                        <span className="dropdown-icon">👤</span>
+                        Hồ Sơ
+                      </Link>
+                    </li>
+                    <li>
+                      <hr className="dropdown-divider" />
+                    </li>
+                    <li>
+                      <Logout />
+                    </li>
+                  </>
+                )}
               </ul>
             </li>
           </ul>
