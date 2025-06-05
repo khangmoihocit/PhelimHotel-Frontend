@@ -16,33 +16,52 @@ import Checkout from "./components/booking/Checkout";
 import BookingSuccess from "./components/booking/BookingSuccess";
 import Bookings from "./components/booking/Bookings";
 import FindBooking from "./components/booking/FindBooking";
-
+import { AuthProvider } from "./components/auth/AuthProvider";
+import RequireAuth from "./components/auth/RequireAuth";
+import Login from "./components/auth/Login";
+import Registration from "./components/auth/Registration";
+import Profile from "./components/auth/Profile";
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
-    <>
-      <Router>
-        <ScrollToTop />
-        <Navbar />
-        <main className="main-content">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/edit-room/:roomId" element={<EditRoom />} />
-            <Route path="/existing-rooms" element={<ExistingRooms />} />
-            <Route path="/add-room" element={<AddRoom />} />
-            <Route path="/browse-all-rooms" element={<RoomListing />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="/book-room/:roomId" element={<Checkout />} />
-            <Route path="/booking-success" element={<BookingSuccess />} />
-            <Route path="/existing-bookings" element={<Bookings />} />
-            <Route path="/find-booking" element={<FindBooking />} />
-          </Routes>
-        </main>
-        <Footer />
-      </Router>
-    </>
+    <AuthProvider>
+      <main>
+        <Router>
+          <ScrollToTop />
+          <Navbar />
+          <main className="main-content">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/edit-room/:roomId" element={<EditRoom />} />
+              <Route path="/existing-rooms" element={<ExistingRooms />} />
+              <Route path="/add-room" element={<AddRoom />} />
+              <Route path="/browse-all-rooms" element={<RoomListing />} />
+              <Route path="/admin" element={<Admin />} />
+              <Route
+                path="/book-room/:roomId"
+                element={
+                  <RequireAuth>
+                    <Checkout />
+                  </RequireAuth>
+                }
+              />
+              <Route path="/booking-success" element={<BookingSuccess />} />
+              <Route path="/existing-bookings" element={<Bookings />} />
+              <Route path="/find-booking" element={<FindBooking />} />
+
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Registration />} />
+
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/logout" element={<FindBooking />} />
+            </Routes>
+          </main>
+          <Footer />
+        </Router>
+      </main>
+    </AuthProvider>
   );
 }
 

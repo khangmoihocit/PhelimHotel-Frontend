@@ -2,7 +2,6 @@ import React from 'react';
 import HeaderMain from '../layout/HeaderMain';
 import Parallax from '../common/Parallax';
 import HotelService from '../common/HotelService';
-import QuickBooking from '../common/QuickBooking';
 import { Container, Row, Col } from 'react-bootstrap';
 import RoomCarousel from "../common/RoomCarousel";
 import TestimonialsSection from './TestimonialsSection';

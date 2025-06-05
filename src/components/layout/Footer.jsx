@@ -11,7 +11,7 @@ const Footer = () => {
                     <Col xs={12} md={4} className="mb-3 mb-md-0">
                         <div className="footer-section">
                             <h5 className="footer-title">
-                                <span className="footer-icon">🏨</span>
+                                <span className="footer-icon"></span>
                                 Phelim Hotel
                             </h5>
                             <p className="footer-description">
@@ -25,9 +25,9 @@ const Footer = () => {
                         <div className="footer-section">
                             <h6 className="footer-subtitle">Liên Hệ</h6>
                             <div className="footer-contact">
-                                <p><span className="contact-icon">📍</span> Hợp Thanh, Mỹ Đức, Hà Nội</p>
-                                <p><span className="contact-icon">📞</span> (84) 966519641</p>
-                                <p><span className="contact-icon">✉️</span> khang567.ht@gmail.com</p>
+                                <p><span className="contact-icon"></span> Hợp Thanh, Mỹ Đức, Hà Nội</p>
+                                <p><span className="contact-icon"></span> (84) 966519641</p>
+                                <p><span className="contact-icon"></span> khang567.ht@gmail.com</p>
                             </div>
                         </div>
                     </Col>
@@ -37,13 +37,13 @@ const Footer = () => {
                             <h6 className="footer-subtitle">Theo Dõi Chúng Tôi</h6>
                             <div className="footer-social">
                                 <a href="#" className="social-link">
-                                    <span className="social-icon">📘</span> Facebook
+                                    <span className="social-icon"></span> Facebook
                                 </a>
                                 <a href="#" className="social-link">
-                                    <span className="social-icon">📷</span> Instagram
+                                    <span className="social-icon"></span> Instagram
                                 </a>
                                 <a href="#" className="social-link">
-                                    <span className="social-icon">🐦</span> Twitter
+                                    <span className="social-icon"></span> Twitter
                                 </a>
                             </div>
                         </div>

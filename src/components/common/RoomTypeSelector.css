@@ -1,0 +1,233 @@
+/* RoomTypeSelector.css */
+.room-type-selector-container {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.room-type-selector-container .form-control-modern {
+  position: relative;
+  background: white;
+  border: 2px solid rgba(169, 77, 123, 0.4);
+  border-radius: 10px;
+  color: rgba(169, 77, 123, 0.9);
+  padding: 0.8rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 12px rgba(169, 77, 123, 0.15);
+  width: 100%;
+}
+
+.room-type-selector-container .form-control-modern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(169, 77, 123, 0.02);
+  pointer-events: none;
+  border-radius: 10px;
+}
+
+.room-type-selector-container .form-control-modern:focus {
+  background: white;
+  border-color: rgba(169, 77, 123, 0.8);
+  box-shadow: 0 0 0 0.2rem rgba(169, 77, 123, 0.25);
+  color: rgba(169, 77, 123, 1);
+  outline: none;
+}
+
+.room-type-selector-container .form-control-modern:hover {
+  border-color: rgba(169, 77, 123, 0.6);
+  box-shadow: 0 4px 16px rgba(169, 77, 123, 0.2);
+  transform: translateY(-1px);
+}
+
+.room-type-selector-container .form-control-modern::placeholder {
+  color: rgba(169, 77, 123, 0.6);
+  font-weight: 500;
+}
+
+.room-type-selector-container .form-control-modern:disabled {
+  background: rgba(169, 77, 123, 0.05);
+  border-color: rgba(169, 77, 123, 0.2);
+  color: rgba(169, 77, 123, 0.4);
+  cursor: not-allowed;
+}
+
+.room-type-selector-container .form-control-modern option {
+  background: white;
+  color: rgba(169, 77, 123, 0.9);
+  padding: 0.5rem;
+  font-weight: 600;
+}
+
+.room-type-selector-container .form-control-modern option:hover {
+  background: rgba(169, 77, 123, 0.1);
+  color: rgba(169, 77, 123, 1);
+}
+
+/* Input group styling for new room type */
+.room-type-selector-container .input-group {
+  display: flex;
+  margin-top: 0.5rem;
+}
+
+.room-type-selector-container .input-group .form-control-modern {
+  border-radius: 10px 0 0 10px;
+  border-right: none;
+  margin-bottom: 0;
+  border-color: rgba(169, 77, 123, 0.4);
+}
+
+.room-type-selector-container .input-group .form-control-modern:focus {
+  z-index: 2;
+  border-right: 2px solid rgba(169, 77, 123, 0.8);
+}
+
+.room-type-selector-container .room-type-add-btn {
+  background: linear-gradient(45deg, rgba(169, 77, 123, 1), rgba(137, 127, 132, 1));
+  border: 2px solid rgba(169, 77, 123, 0.8);
+  border-left: none;
+  border-radius: 0 10px 10px 0;
+  color: white;
+  font-weight: 700;
+  padding: 0.8rem 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.room-type-selector-container .room-type-add-btn:hover {
+  background: linear-gradient(45deg, rgba(137, 127, 132, 1), rgba(169, 77, 123, 1));
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(169, 77, 123, 0.3);
+}
+
+.room-type-selector-container .room-type-add-btn:active {
+  transform: translateY(0);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .room-type-selector-container .form-control-modern {
+    font-size: 0.9rem;
+    padding: 0.7rem;
+  }
+  
+  .room-type-selector-container .room-type-add-btn {
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .room-type-selector-container .input-group {
+    flex-direction: column;
+  }
+  
+  .room-type-selector-container .input-group .form-control-modern {
+    border-radius: 10px;
+    border-right: 2px solid rgba(169, 77, 123, 0.4);
+    margin-bottom: 0.5rem;
+  }
+  
+  .room-type-selector-container .room-type-add-btn {
+    border-radius: 10px;
+    border: 2px solid rgba(169, 77, 123, 0.8);
+    border-top: none;
+    margin-top: -0.5rem;
+  }
+}
+
+/* Enhanced visibility for white backgrounds */
+.room-type-selector-container .form-control-modern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(169, 77, 123, 0.02);
+  pointer-events: none;
+  border-radius: 10px;
+}
+
+/* Better focus and hover states */
+.room-type-selector-container .form-control-modern:hover {
+  border-color: rgba(169, 77, 123, 0.6);
+  box-shadow: 0 4px 16px rgba(169, 77, 123, 0.2);
+  transform: translateY(-1px);
+}
+
+/* Improved placeholder styling */
+.room-type-selector-container .form-control-modern::placeholder {
+  color: rgba(169, 77, 123, 0.6);
+  font-weight: 500;
+}
+
+/* Better disabled state */
+.room-type-selector-container .form-control-modern:disabled {
+  background: rgba(169, 77, 123, 0.05);
+  border-color: rgba(169, 77, 123, 0.2);
+  color: rgba(169, 77, 123, 0.4);
+  cursor: not-allowed;
+}
+
+/* High contrast mode for accessibility */
+@media (prefers-contrast: high) {
+  .room-type-selector-container .form-control-modern {
+    border-width: 3px;
+    border-color: rgba(169, 77, 123, 1);
+    color: rgba(169, 77, 123, 1);
+    font-weight: 700;
+  }
+  
+  .room-type-selector-container .room-type-add-btn {
+    border-width: 3px;
+    font-weight: 800;
+  }
+}
+
+/* Dark mode support (if needed in future) */
+@media (prefers-color-scheme: dark) {
+  .room-type-selector-container .form-control-modern {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(169, 77, 123, 0.7);
+    color: rgba(169, 77, 123, 1);
+  }
+}
+
+/* Animation for smooth transitions */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.room-type-selector-container .input-group {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+/* Loading state styling */
+.room-type-selector-container .form-control-modern.loading {
+  background: linear-gradient(90deg, rgba(169, 77, 123, 0.1) 25%, rgba(169, 77, 123, 0.2) 50%, rgba(169, 77, 123, 0.1) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
