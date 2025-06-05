@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { use } from "react";
 import { getRoomTypes } from "../utils/ApiFunctions";
+import "./RoomTypeSelector.css";
 
 const RoomTypeSelector = ({ handleRoomInputChange, newRoom }) => {
   const [roomTypes, setRoomTypes] = useState([]); // danh sách loại phòng từ database
@@ -26,16 +26,14 @@ const RoomTypeSelector = ({ handleRoomInputChange, newRoom }) => {
       setNewRoomType("");
       setShowNewRoomTypeInput(false);
     }
-  };
-
-  return (
-    <>
+  };  return (
+    <div className="room-type-selector-container">
       {roomTypes.length > 0 && (
-        <div>
+        <>
           <select
             name="roomType"
             id="roomType"
-            className="form-select mb-2 shadow-sm"
+            className="form-control-modern"
             value={newRoom.roomType}
             onChange={(e) => {
               if (e.target.value == "Add New") {
@@ -45,7 +43,7 @@ const RoomTypeSelector = ({ handleRoomInputChange, newRoom }) => {
               }
             }}
           >
-            <option value={""}>Chọn 1 phòng</option>
+            <option value={""}>Chọn loại phòng</option>
             <option value={"Add New"}>Thêm loại phòng mới...</option>
             {roomTypes.map((type, index) => (
               <option value={type} key={index}>
@@ -54,26 +52,26 @@ const RoomTypeSelector = ({ handleRoomInputChange, newRoom }) => {
             ))}
           </select>
           {showNewRoomTypeInput && (
-            <div className="input-group mb-2">
+            <div className="input-group">
               <input
                 type="text"
-                className="form-control"
-                placeholder="Nhập 1 loại phòng mới"
+                className="form-control-modern"
+                placeholder="Nhập loại phòng mới"
                 value={newRoomType}
                 onChange={handleNewTypeRoomInputChange}
               />
               <button
                 type="button"
-                className="btn btn-success"
+                className="room-type-add-btn"
                 onClick={handleAddNewRoomType}
               >
-                Thêm
+                ✓ Thêm
               </button>
             </div>
           )}
-        </div>
+        </>
       )}
-    </>
+    </div>
   );
 };
 

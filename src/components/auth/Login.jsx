@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { loginUser } from "../utils/ApiFunctions";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthProvider";
+import "../../assets/styles/auth.css";
 
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -31,52 +32,71 @@ const Login = () => {
       setErrorMessage("");
     }, 4000);
   };
-
   return (
-    <section className="container col-6 mt-5 mb-5">
-      {errorMessage && <p className="alert alert-danger">{errorMessage}</p>}
-      <h2>Login</h2>
-      <form action="" onSubmit={handleSubmit}>
-        <div className="row mb-3">
-          <label htmlFor="email" className="col-sm-2 col-form-label">
-            Email
-          </label>
-          <div>
+    <div className="auth-container">
+      <div className="auth-card">
+        <div className="auth-brand">
+          <span className="auth-brand-icon">🏨</span>
+          <div className="auth-brand-text">Phelim Hotel</div>
+        </div>
+        
+        <div className="auth-header">
+          <h2 className="auth-title">Đăng Nhập</h2>
+          <p className="auth-subtitle">Chào mừng bạn trở lại!</p>
+        </div>
+
+        {errorMessage && (
+          <div className="auth-alert">
+            ⚠️ {errorMessage}
+          </div>
+        )}
+
+        <form className="auth-form" onSubmit={handleSubmit}>
+          <div className="form-group-auth with-icon">
+            <label htmlFor="email" className="form-label-auth">
+              Email
+            </label>
             <input
               type="email"
               id="email"
               name="email"
-              className="form-control"
+              className="form-control-auth with-icon"
               value={login.email}
               onChange={handleInputChange}
+              placeholder="Nhập email của bạn"
+              required
             />
+            <span className="form-icon">📧</span>
           </div>
-        </div>
-        <div className="row mb-3">
-          <label htmlFor="password" className="col-sm-2 col-form-label">
-            Mật khẩu
-          </label>
-          <div>
+
+          <div className="form-group-auth with-icon">
+            <label htmlFor="password" className="form-label-auth">
+              Mật khẩu
+            </label>
             <input
               type="password"
               id="password"
               name="password"
-              className="form-control"
+              className="form-control-auth with-icon"
               value={login.password}
               onChange={handleInputChange}
+              placeholder="Nhập mật khẩu"
+              required
             />
+            <span className="form-icon">🔒</span>
           </div>
-        </div>
-        <div className="mb-3">
-          <button type="submit" className="btn btn-hotel">
-            Đăng nhập
+
+          <button type="submit" className="btn-auth">
+            🔐 Đăng nhập
           </button>
-          <span>
-            Bạn chưa có có tài khoản?<Link to={"/register"}>Đăng ký</Link>
-          </span>
+        </form>
+
+        <div className="auth-link-container">
+          <span className="auth-text">Bạn chưa có tài khoản?</span>
+          <Link to="/register" className="auth-link">Đăng ký ngay</Link>
         </div>
-      </form>
-    </section>
+      </div>
+    </div>
   );
 };
 

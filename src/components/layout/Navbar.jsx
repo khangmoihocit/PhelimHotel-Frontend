@@ -1,22 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import Logout from "../auth/Logout";
 import { useAuth } from "../auth/AuthProvider";
 import "./Navbar.css";
 
-const Navbar = () => {
-  const [scrolled, setScrolled] = useState(false);
-  const { user } = useAuth(); // Sử dụng AuthContext
-  // Handle scroll effect
-  useEffect(() => {
-    const handleScroll = () => {
-      const isScrolled = window.scrollY > 50;
-      setScrolled(isScrolled);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);  // Get authentication state from AuthContext
+const Navbar = () => {  const { user } = useAuth(); // Sử dụng AuthContext
+  
+  // Get authentication state from AuthContext
   const isLoggedIn = !!user;
   // Check roles properly - could be array or string
   const isAdmin = user?.roles === "ROLE_ADMIN" || (Array.isArray(user?.roles) && user?.roles.includes("ROLE_ADMIN"));
@@ -25,7 +15,7 @@ const Navbar = () => {
 
 
   return (
-    <nav className={`navbar navbar-expand-lg navbar-custom fixed-top shadow-lg ${scrolled ? 'scrolled' : ''}`}>
+    <nav className="navbar navbar-expand-lg navbar-custom fixed-top shadow-lg">
       <div className="container">
         <Link to={"/"} className="navbar-brand">
           <div className="brand-container">

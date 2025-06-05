@@ -4,6 +4,7 @@ import { getAvailableRooms } from "../utils/ApiFunctions";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import RoomTypeSelector from "./RoomTypeSelector";
 import RoomSearchResult from "./RoomSearchResult";
+import "./RoomSearch.css";
 
 const RoomSearch = () => {
   const [searchQuery, setSearchQuery] = useState({
@@ -67,70 +68,96 @@ const RoomSearch = () => {
       roomType: "",
     });
   };
-
   return (
     <>
-      <Container className="mt-5 mb-5 py-5 shadow">
-        <Form onSubmit={handleSearch}>
-          <Row className="justify-content-center">
-            <Col xs={12} md={3}>
-              <Form.Group controlId="checkInDate">
-                <Form.Label>Ngày nhận phòng</Form.Label>
-                <Form.Control
-                  type="date"
-                  name="checkInDate"
-                  value={searchQuery.checkInDate}
-                  onChange={handleInputChange}
-                  min={moment().format("YYYY-MM-DD")}
-                ></Form.Control>
-              </Form.Group>
-            </Col>
-
-            <Col xs={12} md={3}>
-              <Form.Group controlId="checkOutDate">
-                <Form.Label>Ngày trả phòng</Form.Label>
-                <Form.Control
-                  type="date"
-                  name="checkOutDate"
-                  value={searchQuery.checkOutDate}
-                  onChange={handleInputChange}
-                  min={moment().format("YYYY-MM-DD")}
-                ></Form.Control>
-              </Form.Group>
-            </Col>
-
-            <Col xs={12} md={3}>
-              <Form.Group>
-                <Form.Label>Loại phòng</Form.Label>
-                <div className="d-flex">
-                  <RoomTypeSelector
-                    handleRoomInputChange={handleInputChange}
-                    newRoom={searchQuery}
+      <Container className="room-search-container">
+        <div className="search-form-content">
+          <h2 className="search-title">Tìm Phòng Khách Sạn</h2>
+          <p className="search-subtitle">Khám phá những phòng tuyệt vời nhất cho kỳ nghỉ của bạn</p>
+          
+          <Form onSubmit={handleSearch}>
+            <Row className="justify-content-center search-row">
+              <Col xs={12} md={3}>
+                <Form.Group controlId="checkInDate" className="form-group-modern">
+                  <Form.Label className="form-label-modern">Ngày nhận phòng</Form.Label>
+                  <Form.Control
+                    type="date"
+                    name="checkInDate"
+                    value={searchQuery.checkInDate}
+                    onChange={handleInputChange}
+                    min={moment().format("YYYY-MM-DD")}
+                    className="form-control-modern"
                   />
-                  <Button variant="secondary" type="submit">
-                    Tìm kiếm
+                </Form.Group>
+              </Col>
+
+              <Col xs={12} md={3}>
+                <Form.Group controlId="checkOutDate" className="form-group-modern">
+                  <Form.Label className="form-label-modern">Ngày trả phòng</Form.Label>
+                  <Form.Control
+                    type="date"
+                    name="checkOutDate"
+                    value={searchQuery.checkOutDate}
+                    onChange={handleInputChange}
+                    min={moment().format("YYYY-MM-DD")}
+                    className="form-control-modern"
+                  />
+                </Form.Group>
+              </Col>
+
+              <Col xs={12} md={3}>
+                <Form.Group className="form-group-modern">
+                  <Form.Label className="form-label-modern">Loại phòng</Form.Label>
+                  <div className="room-type-selector-container">
+                    <RoomTypeSelector
+                      handleRoomInputChange={handleInputChange}
+                      newRoom={searchQuery}
+                    />
+                  </div>
+                </Form.Group>
+              </Col>
+              
+              <Col xs={12} md={3}>
+                <div className="search-button-container">
+                  <Button type="submit" className="search-button">
+                    🔍 Tìm kiếm
                   </Button>
                 </div>
-              </Form.Group>
-            </Col>
-          </Row>
-        </Form>
+              </Col>
+            </Row>
+          </Form>
 
-        {isLoading ? (
-          <p>Đang tìm phòng...</p>
-        ) : availableRooms ? (
-          <>
-            <RoomSearchResult
-              results={availableRooms}
-              onClearSearch={ClearSearch}
-            />
-          </>
-        ) : (
-          <p>Không có phòng nào bạn đang tìm kiếm</p>
-        )}
-
-        {errorMessage && <p className="text-danger">{errorMessage}</p>}
+          {errorMessage && (
+            <div className="error-message">
+              ⚠️ {errorMessage}
+            </div>
+          )}
+        </div>
       </Container>
+
+      {isLoading && (
+        <Container className="loading-container">
+          <div className="loading-spinner"></div>
+          <div className="loading-text">Đang tìm kiếm phòng phù hợp...</div>
+        </Container>
+      )}
+
+      {!isLoading && availableRooms && availableRooms.length > 0 && (
+        <div className="search-results-section">
+          <RoomSearchResult
+            results={availableRooms}
+            onClearSearch={ClearSearch}
+          />
+        </div>
+      )}
+
+      {!isLoading && availableRooms && availableRooms.length === 0 && searchQuery.checkInDate && (
+        <Container>
+          <div className="no-results">
+            😔 Không tìm thấy phòng nào phù hợp với yêu cầu của bạn
+          </div>
+        </Container>
+      )}
     </>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { registerUser } from "../utils/ApiFunctions"
 import { Link } from "react-router-dom"
+import "../../assets/styles/auth.css"
 
 const Registration = () => {
 	const [registration, setRegistration] = useState({
@@ -32,73 +33,93 @@ const Registration = () => {
 			setSuccessMessage("")
 		}, 5000)
 	}
-
 	return (
-		<section className="container col-6 mt-5 mb-5">
-			{errorMessage && <p className="alert alert-danger">{errorMessage}</p>}
-			{successMessage && <p className="alert alert-success">{successMessage}</p>}
+		<div className="auth-container">
+			<div className="auth-card">
+				<div className="auth-header">
+					<h2 className="auth-title">Đăng Ký</h2>
+					<p className="auth-subtitle">Tạo tài khoản mới để trải nghiệm dịch vụ của chúng tôi</p>
+				</div>
 
-			<h2>Register</h2>
-			<form onSubmit={handleRegistration}>
-				
+				{errorMessage && (
+					<div className="alert alert-error">
+						<i className="fas fa-exclamation-circle"></i>
+						{errorMessage}
+					</div>
+				)}
+				{successMessage && (
+					<div className="alert alert-success">
+						<i className="fas fa-check-circle"></i>
+						{successMessage}
+					</div>
+				)}
 
-				<div className="mb-3 row">
-					<label htmlFor="name" className="col-sm-2 col-form-label">
-						Họ và tên
-					</label>
-					<div className="col-sm-10">
+				<form onSubmit={handleRegistration} className="auth-form">
+					<div className="form-group">
+						<label htmlFor="name" className="form-label">
+							<i className="fas fa-user"></i>
+							Họ và tên
+						</label>
 						<input
 							id="name"
 							name="name"
 							type="text"
-							className="form-control"
+							className="form-input"
+							placeholder="Nhập họ và tên của bạn"
 							value={registration.name}
 							onChange={handleInputChange}
+							required
 						/>
 					</div>
-				</div>
 
-				<div className="mb-3 row">
-					<label htmlFor="email" className="col-sm-2 col-form-label">
-						Email
-					</label>
-					<div className="col-sm-10">
+					<div className="form-group">
+						<label htmlFor="email" className="form-label">
+							<i className="fas fa-envelope"></i>
+							Email
+						</label>
 						<input
 							id="email"
 							name="email"
 							type="email"
-							className="form-control"
+							className="form-input"
+							placeholder="Nhập địa chỉ email"
 							value={registration.email}
 							onChange={handleInputChange}
+							required
 						/>
 					</div>
-				</div>
 
-				<div className="mb-3 row">
-					<label htmlFor="password" className="col-sm-2 col-form-label">
-						Mật khẩu
-					</label>
-					<div className="col-sm-10">
+					<div className="form-group">
+						<label htmlFor="password" className="form-label">
+							<i className="fas fa-lock"></i>
+							Mật khẩu
+						</label>
 						<input
-							type="password"
-							className="form-control"
 							id="password"
 							name="password"
+							type="password"
+							className="form-input"
+							placeholder="Nhập mật khẩu"
 							value={registration.password}
 							onChange={handleInputChange}
+							required
 						/>
 					</div>
-				</div>
-				<div className="mb-3">
-					<button type="submit" className="btn btn-hotel" style={{ marginRight: "10px" }}>
-						Đăng ký
+
+					<button type="submit" className="auth-button">
+						<i className="fas fa-user-plus"></i>
+						Đăng Ký
 					</button>
-					<span style={{ marginLeft: "10px" }}>
-						Bạn đã có tài khoản? <Link to={"/login"}>Đăng nhập</Link>
-					</span>
-				</div>
-			</form>
-		</section>
+
+					<div className="auth-footer">
+						<p>
+							Bạn đã có tài khoản? 
+							<Link to="/login" className="auth-link">Đăng nhập ngay</Link>
+						</p>
+					</div>
+				</form>
+			</div>
+		</div>
 	)
 }
 
