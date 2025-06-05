@@ -149,12 +149,15 @@ const RoomSearch = () => {
             onClearSearch={ClearSearch}
           />
         </div>
-      )}
-
-      {!isLoading && availableRooms && availableRooms.length === 0 && searchQuery.checkInDate && (
+      )}      {!isLoading && availableRooms && availableRooms.length === 0 && searchQuery.checkInDate && (
         <Container>
           <div className="no-results">
-            😔 Không tìm thấy phòng nào phù hợp với yêu cầu của bạn
+            <span className="emoji">😔</span>
+            Không tìm thấy phòng nào phù hợp với yêu cầu của bạn.
+            <br />
+            <small style={{fontSize: '1rem', color: '#888', marginTop: '1rem', display: 'block'}}>
+              Hãy thử thay đổi ngày hoặc loại phòng khác
+            </small>
           </div>
         </Container>
       )}
