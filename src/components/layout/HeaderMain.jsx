@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { FaStar } from 'react-icons/fa';
 
 const HeaderMain = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -47,11 +48,10 @@ const HeaderMain = () => {
             
             <Container className="hero-content">
                 <Row className="align-items-center min-vh-100">
-                    <Col lg={8} className="mx-auto text-center">
-                        <div className="hero-text-content">
+                    <Col lg={8} className="mx-auto text-center">                        <div className="hero-text-content">
                             <h1 className="hero-title mb-4">
                                 {slides[currentSlide].title}
-                                <span className='hero-brand'> ✨</span>
+                                <FaStar className='hero-brand' />
                             </h1>
                             <p className="hero-subtitle mb-4">
                                 {slides[currentSlide].subtitle}

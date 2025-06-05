@@ -259,6 +259,7 @@
   color: rgba(169, 77, 123, 0.6);
   font-size: 1.2rem;
   z-index: 2;
+  pointer-events: none;
 }
 
 .form-control-auth.with-icon {

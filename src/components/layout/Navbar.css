@@ -22,6 +22,7 @@
 
 .brand-icon {
   font-size: 1.8rem;
+  color: white;
   animation: pulse 2s infinite;
 }
 
@@ -66,6 +67,7 @@
 .nav-icon {
   font-size: 1.1rem;
   transition: transform 0.3s ease;
+  color: inherit;
 }
 
 .nav-link-custom:hover .nav-icon {

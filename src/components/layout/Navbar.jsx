@@ -3,20 +3,27 @@ import { Link, NavLink } from "react-router-dom";
 import Logout from "../auth/Logout";
 import { useAuth } from "../auth/AuthProvider";
 import "./Navbar.css";
+import { 
+  FaHotel, 
+  FaBed, 
+  FaCog, 
+  FaSearch, 
+  FaSignInAlt, 
+  FaUser 
+} from "react-icons/fa";
 
 const Navbar = () => {
   const { user, isLoading } = useAuth(); // Sử dụng AuthContext
   
   const isLoggedIn = !!user;
   const isAdmin = user?.roles === "ROLE_ADMIN" || (Array.isArray(user?.roles) && user?.roles.includes("ROLE_ADMIN"));
-
   if (isLoading) {
     return (
       <nav className="navbar navbar-expand-lg navbar-custom fixed-top shadow-lg">
         <div className="container">
           <Link to={"/"} className="navbar-brand">
             <div className="brand-container">
-              <span className="brand-icon">🏨</span>
+              <FaHotel className="brand-icon" />
               <span className="brand-text">Phelim Hotel</span>
             </div>
           </Link>
@@ -29,11 +36,10 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-custom fixed-top shadow-lg">
-      <div className="container">
+    <nav className="navbar navbar-expand-lg navbar-custom fixed-top shadow-lg">      <div className="container">
         <Link to={"/"} className="navbar-brand">
           <div className="brand-container">
-            <span className="brand-icon">🏨</span>
+            <FaHotel className="brand-icon" />
             <span className="brand-text">Phelim Hotel</span>
           </div>
         </Link>
@@ -51,40 +57,36 @@ const Navbar = () => {
         </button>
         
         <div className="collapse navbar-collapse" id="navbarScroll">
-          <ul className="navbar-nav me-auto my-2 my-lg-0">
-            <li className="nav-item">
+          <ul className="navbar-nav me-auto my-2 my-lg-0">            <li className="nav-item">
               <NavLink
                 className="nav-link nav-link-custom"
                 to={"/browse-all-rooms"}
               >
-                <span className="nav-icon">🛏️</span>
+                <FaBed className="nav-icon" />
                 Tất Cả Phòng
               </NavLink>
-            </li>
-            {isLoggedIn && isAdmin && (
+            </li>            {isLoggedIn && isAdmin && (
               <li className="nav-item">
                 <NavLink
                   className="nav-link nav-link-custom"
                   to={"/admin"}
                 >
-                  <span className="nav-icon">⚙️</span>
+                  <FaCog className="nav-icon" />
                   Admin
                 </NavLink>
               </li>
-            )}          </ul>
+            )}</ul>
           
-          <ul className="navbar-nav">
-            <li className="nav-item">
+          <ul className="navbar-nav">            <li className="nav-item">
               <NavLink className="nav-link nav-link-custom" to={"/find-booking"}>
-                <span className="nav-icon">🔍</span>
+                <FaSearch className="nav-icon" />
                 Tìm Đặt Phòng
               </NavLink>
             </li>
-            
-            {!isLoggedIn ? (
+              {!isLoggedIn ? (
               <li className="nav-item">
                 <NavLink className="nav-link nav-link-custom" to={"/login"}>
-                  <span className="nav-icon">🔐</span>
+                  <FaSignInAlt className="nav-icon" />
                   Đăng Nhập
                 </NavLink>
               </li>
@@ -92,7 +94,7 @@ const Navbar = () => {
               <>
                 <li className="nav-item">
                   <NavLink className="nav-link nav-link-custom" to={"/profile"}>
-                    <span className="nav-icon">👤</span>
+                    <FaUser className="nav-icon" />
                     Hồ Sơ
                   </NavLink>
                 </li>

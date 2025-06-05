@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Row } from "react-bootstrap";
 import RoomCard from "../room/RoomCard";
 import RoomPaginator from "./RoomPaginator";
+import { FaHotel, FaRedo } from "react-icons/fa";
 
 const RoomSearchResult = ({ results, onClearSearch }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -19,9 +20,10 @@ const RoomSearchResult = ({ results, onClearSearch }) => {
   return (
     <>
       {results.length > 0 ? (
-        <>
-          <div className="search-results-header">
-            <h3 className="search-results-title">🏨 Kết Quả Tìm Kiếm</h3>
+        <>          <div className="search-results-header">
+            <h3 className="search-results-title">
+              <FaHotel /> Kết Quả Tìm Kiếm
+            </h3>
             <p className="search-results-subtitle">
               Tìm thấy {totalResults} phòng phù hợp với yêu cầu của bạn
             </p>
@@ -42,13 +44,12 @@ const RoomSearchResult = ({ results, onClearSearch }) => {
                   onPageChange={handlePageChange}
                 />
               </div>
-            )}
-            <Button 
+            )}            <Button 
               variant="secondary" 
               onClick={onClearSearch}
               className="clear-search-button"
             >
-              🔄 Tìm kiếm mới
+              <FaRedo /> Tìm kiếm mới
             </Button>
           </div>
         </>

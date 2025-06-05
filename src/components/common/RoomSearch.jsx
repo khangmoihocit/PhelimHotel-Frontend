@@ -5,6 +5,7 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import RoomTypeSelector from "./RoomTypeSelector";
 import RoomSearchResult from "./RoomSearchResult";
 import "./RoomSearch.css";
+import { FaSearch, FaSadTear, FaExclamationTriangle } from "react-icons/fa";
 
 const RoomSearch = () => {
   const [searchQuery, setSearchQuery] = useState({
@@ -116,20 +117,17 @@ const RoomSearch = () => {
                   </div>
                 </Form.Group>
               </Col>
-              
-              <Col xs={12} md={3}>
+                <Col xs={12} md={3}>
                 <div className="search-button-container">
                   <Button type="submit" className="search-button">
-                    🔍 Tìm kiếm
+                    <FaSearch /> Tìm kiếm
                   </Button>
                 </div>
               </Col>
             </Row>
-          </Form>
-
-          {errorMessage && (
+          </Form>          {errorMessage && (
             <div className="error-message">
-              ⚠️ {errorMessage}
+              <FaExclamationTriangle /> {errorMessage}
             </div>
           )}
         </div>
@@ -152,7 +150,7 @@ const RoomSearch = () => {
       )}      {!isLoading && availableRooms && availableRooms.length === 0 && searchQuery.checkInDate && (
         <Container>
           <div className="no-results">
-            <span className="emoji">😔</span>
+            <FaSadTear className="emoji" />
             Không tìm thấy phòng nào phù hợp với yêu cầu của bạn.
             <br />
             <small style={{fontSize: '1rem', color: '#888', marginTop: '1rem', display: 'block'}}>

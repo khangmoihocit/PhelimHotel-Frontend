@@ -3,6 +3,7 @@ import { loginUser } from "../utils/ApiFunctions";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthProvider";
 import "../../assets/styles/auth.css";
+import { FaHotel, FaLock, FaSignInAlt, FaExclamationTriangle, FaEnvelope } from "react-icons/fa";
 
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -33,10 +34,9 @@ const Login = () => {
     }, 4000);
   };
   return (
-    <div className="auth-container">
-      <div className="auth-card">
+    <div className="auth-container">      <div className="auth-card">
         <div className="auth-brand">
-          <span className="auth-brand-icon">🏨</span>
+          <FaHotel className="auth-brand-icon" />
           <div className="auth-brand-text">Phelim Hotel</div>
         </div>
         
@@ -47,7 +47,7 @@ const Login = () => {
 
         {errorMessage && (
           <div className="auth-alert">
-            ⚠️ {errorMessage}
+            <FaExclamationTriangle /> {errorMessage}
           </div>
         )}
 
@@ -55,8 +55,7 @@ const Login = () => {
           <div className="form-group-auth with-icon">
             <label htmlFor="email" className="form-label-auth">
               Email
-            </label>
-            <input
+            </label>            <input
               type="email"
               id="email"
               name="email"
@@ -66,7 +65,7 @@ const Login = () => {
               placeholder="Nhập email của bạn"
               required
             />
-            <span className="form-icon">📧</span>
+            <FaEnvelope className="form-icon" />
           </div>
 
           <div className="form-group-auth with-icon">
@@ -83,11 +82,11 @@ const Login = () => {
               placeholder="Nhập mật khẩu"
               required
             />
-            <span className="form-icon">🔒</span>
+            <FaLock className="form-icon" />
           </div>
 
           <button type="submit" className="btn-auth">
-            🔐 Đăng nhập
+            <FaSignInAlt /> Đăng nhập
           </button>
         </form>
 
