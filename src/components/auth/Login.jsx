@@ -21,8 +21,6 @@ const Login = () => {
     e.preventDefault();
     const success = await loginUser(login);
     if (success) {
-      console.log("Login response:", success); // Debug log
-      // Pass the full response to AuthProvider, not just the token
       auth.handleLogin(success);
       navigate(redirectUrl, { replace: true });
     } else {
