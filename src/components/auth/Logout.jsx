@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
 import { AuthContext } from "./AuthProvider"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 const Logout = () => {
 	const auth = useContext(AuthContext)
@@ -8,23 +8,17 @@ const Logout = () => {
 
 	const handleLogout = () => {
 		auth.handleLogout()
-		navigate("/", { state: { message: " You have been logged out!" } })
+		navigate("/", { state: { message: "Đăng xuất thành công!" } })
 	}
-
 	return (
-		<>
-			<li>
-				<Link className="dropdown-item" to={"/profile"}>
-					Profile
-				</Link>
-			</li>
-			<li>
-				<hr className="dropdown-divider" />
-			</li>
-			<button className="dropdown-item" onClick={handleLogout}>
-				Logout
-			</button>
-		</>
+		<button 
+			className="dropdown-item dropdown-item-custom w-100 text-start border-0 bg-transparent" 
+			onClick={handleLogout}
+			style={{ background: 'none', border: 'none', padding: '0.5rem 1rem' }}
+		>
+			<span className="dropdown-icon">🚪</span>
+			Đăng Xuất
+		</button>
 	)
 }
 

@@ -4,8 +4,7 @@ import { Link } from "react-router-dom"
 
 const Registration = () => {
 	const [registration, setRegistration] = useState({
-		firstName: "",
-		lastName: "",
+		name:"",
 		email: "",
 		password: ""
 	})
@@ -23,7 +22,7 @@ const Registration = () => {
 			const result = await registerUser(registration)
 			setSuccessMessage(result)
 			setErrorMessage("")
-			setRegistration({ firstName: "", lastName: "", email: "", password: "" })
+			setRegistration({ name:"", email: "", password: "" })
 		} catch (error) {
 			setSuccessMessage("")
 			setErrorMessage(`Registration error : ${error.message}`)
@@ -41,33 +40,19 @@ const Registration = () => {
 
 			<h2>Register</h2>
 			<form onSubmit={handleRegistration}>
-				<div className="mb-3 row">
-					<label htmlFor="firstName" className="col-sm-2 col-form-label">
-						first Name
-					</label>
-					<div className="col-sm-10">
-						<input
-							id="firstName"
-							name="firstName"
-							type="text"
-							className="form-control"
-							value={registration.firstName}
-							onChange={handleInputChange}
-						/>
-					</div>
-				</div>
+				
 
 				<div className="mb-3 row">
-					<label htmlFor="lastName" className="col-sm-2 col-form-label">
-						Last Name
+					<label htmlFor="name" className="col-sm-2 col-form-label">
+						Họ và tên
 					</label>
 					<div className="col-sm-10">
 						<input
-							id="lastName"
-							name="lastName"
+							id="name"
+							name="name"
 							type="text"
 							className="form-control"
-							value={registration.lastName}
+							value={registration.name}
 							onChange={handleInputChange}
 						/>
 					</div>
@@ -91,7 +76,7 @@ const Registration = () => {
 
 				<div className="mb-3 row">
 					<label htmlFor="password" className="col-sm-2 col-form-label">
-						Password
+						Mật khẩu
 					</label>
 					<div className="col-sm-10">
 						<input
@@ -106,10 +91,10 @@ const Registration = () => {
 				</div>
 				<div className="mb-3">
 					<button type="submit" className="btn btn-hotel" style={{ marginRight: "10px" }}>
-						Register
+						Đăng ký
 					</button>
 					<span style={{ marginLeft: "10px" }}>
-						Already have an account? <Link to={"/login"}>Login</Link>
+						Bạn đã có tài khoản? <Link to={"/login"}>Đăng nhập</Link>
 					</span>
 				</div>
 			</form>

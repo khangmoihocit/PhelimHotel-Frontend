@@ -11,8 +11,7 @@ const Profile = () => {
   const [user, setUser] = useState({
     id: "",
     email: "",
-    firstName: "",
-    lastName: "",
+    name: "",
     roles: [{ id: "", name: "" }],
   });
 
@@ -88,7 +87,7 @@ const Profile = () => {
           className="card p-5 mt-5"
           style={{ backgroundColor: "whitesmoke" }}
         >
-          <h4 className="card-title text-center">User Information</h4>
+          <h4 className="card-title text-center">Thông tin người dùng</h4>
           <div className="card-body">
             <div className="col-md-10 mx-auto">
               <div className="card mb-3 shadow">
@@ -120,19 +119,11 @@ const Profile = () => {
                       </div>
                       <hr />
 
-                      <div className="form-group row">
-                        <label className="col-md-2 col-form-label fw-bold">
-                          First Name:
-                        </label>
-                        <div className="col-md-10">
-                          <p className="card-text">{user.firstName}</p>
-                        </div>
-                      </div>
-                      <hr />
+                     
 
                       <div className="form-group row">
                         <label className="col-md-2 col-form-label fw-bold">
-                          Last Name:
+                          Họ và tên: 
                         </label>
                         <div className="col-md-10">
                           <p className="card-text">{user.lastName}</p>
@@ -152,7 +143,7 @@ const Profile = () => {
 
                       <div className="form-group row">
                         <label className="col-md-2 col-form-label fw-bold">
-                          Roles:
+                          Quyền:
                         </label>
                         <div className="col-md-10">
                           <ul className="list-unstyled">
@@ -169,7 +160,7 @@ const Profile = () => {
                 </div>
               </div>
 
-              <h4 className="card-title text-center">Booking History</h4>
+              <h4 className="card-title text-center">Lịch sử đặt phòng</h4>
 
               {bookings.length > 0 ? (
                 <table className="table table-bordered table-hover shadow">
@@ -177,11 +168,11 @@ const Profile = () => {
                     <tr>
                       <th scope="col">Booking ID</th>
                       <th scope="col">Room ID</th>
-                      <th scope="col">Room Type</th>
-                      <th scope="col">Check In Date</th>
-                      <th scope="col">Check Out Date</th>
-                      <th scope="col">Confirmation Code</th>
-                      <th scope="col">Status</th>
+                      <th scope="col">Loại phòng</th>
+                      <th scope="col">Ngày đặt phòng</th>
+                      <th scope="col">Ngày trả phòng</th>
+                      <th scope="col">Code phòng</th>
+                      <th scope="col">Trạng thái</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -207,7 +198,7 @@ const Profile = () => {
                   </tbody>
                 </table>
               ) : (
-                <p>You have not made any bookings yet.</p>
+                <p>Bạn chưa thực hiện bất kỳ đặt phòng nào.</p>
               )}
 
               <div className="d-flex justify-content-center">
@@ -216,7 +207,7 @@ const Profile = () => {
                     className="btn btn-danger btn-sm"
                     onClick={handleDeleteAccount}
                   >
-                    Close account
+                    Xóa tài khoản
                   </button>
                 </div>
               </div>

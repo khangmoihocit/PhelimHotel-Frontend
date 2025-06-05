@@ -11,10 +11,12 @@ const BookingForm = ({ roomInfo: propRoomInfo }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [roomPrice, setRoomPrice] = useState(0);
+
+  const currentUser = localStorage.getItem("userId")
   const [booking, setBooking] = useState({
     //request
     guestFullName: "",
-    guestEmail: "",
+    guestEmail: currentUser,
     checkInDate: "",
     checkOutDate: "",
     numberOfAdults: 1,
@@ -29,15 +31,12 @@ const BookingForm = ({ roomInfo: propRoomInfo }) => {
   const { roomId } = useParams();
   const navigate = useNavigate();
 
-  // Effect to handle body scroll when modal is open
   useEffect(() => {
     if (isSubmitted) {
       document.body.classList.add("modal-open");
     } else {
       document.body.classList.remove("modal-open");
     }
-
-    // Cleanup function
     return () => {
       document.body.classList.remove("modal-open");
     };

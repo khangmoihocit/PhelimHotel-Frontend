@@ -1,18 +1,59 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
+import Logout from "../auth/Logout";
+import { getUser } from "../utils/ApiFunctions";
+import "./Navbar.css";
 
 const Navbar = () => {
   const [showAccount, setShowAccount] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  
   const handleAccountClick = () => {
     setShowAccount(!showAccount);
   };
 
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 50;
+      setScrolled(isScrolled);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+  // Get authentication state from localStorage
+  const token = localStorage.getItem("token");
+  const userRole = localStorage.getItem("userRole");
+  const userId = localStorage.getItem("userId");
+  const userName = localStorage.getItem("userName");
+  
+  const isLoggedIn = !!token;
+  const isAdmin = userRole === "ROLE_ADMIN";
+
+  // Get display name for account dropdown
+  const getAccountDisplayName = () => {
+    if (isLoggedIn && userName) {
+      return `Xin chào, ${userName}`;
+    }
+    return "Tài Khoản";
+  };
+
+  // Debug logging
+  console.log("Navbar Debug:", {
+    token: !!token,
+    userRole,
+    userId,
+    userName,
+    isLoggedIn,
+    isAdmin
+  });
   return (
-    <nav className="navbar navbar-expand-lg navbar-custom fixed-top shadow-lg">
+    <nav className={`navbar navbar-expand-lg navbar-custom fixed-top shadow-lg ${scrolled ? 'scrolled' : ''}`}>
       <div className="container">
         <Link to={"/"} className="navbar-brand">
           <div className="brand-container">
-            <span className="brand-icon"></span>
+            <span className="brand-icon">🏨</span>
             <span className="brand-text">Phelim Hotel</span>
           </div>
         </Link>
@@ -36,30 +77,31 @@ const Navbar = () => {
                 className="nav-link nav-link-custom"
                 to={"/browse-all-rooms"}
               >
-                <span className="nav-icon"></span>
+                <span className="nav-icon">🛏️</span>
                 Tất Cả Phòng
               </NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink
-                className="nav-link nav-link-custom"
-                to={"/admin"}
-              >
-                <span className="nav-icon"></span>
-                Admin
-              </NavLink>
-            </li>
+            {isLoggedIn && isAdmin && (
+              <li className="nav-item">
+                <NavLink
+                  className="nav-link nav-link-custom"
+                  to={"/admin"}
+                >
+                  <span className="nav-icon">⚙️</span>
+                  Admin
+                </NavLink>
+              </li>
+            )}
           </ul>
 
           <ul className="navbar-nav">
             <li className="nav-item">
               <NavLink className="nav-link nav-link-custom" to={"/find-booking"}>
-                <span className="nav-icon"></span>
+                <span className="nav-icon">🔍</span>
                 Tìm Đặt Phòng
               </NavLink>
             </li>
-            <li className="nav-item dropdown">
-              <a
+            <li className="nav-item dropdown">              <a
                 className={`nav-link dropdown-toggle nav-link-custom ${
                   showAccount ? "show" : ""
                 }`}
@@ -70,30 +112,40 @@ const Navbar = () => {
                 aria-expanded="false"
                 onClick={handleAccountClick}
               >
-                <span className="nav-icon"></span>
-                Tài Khoản
+                <span className="nav-icon">👤</span>
+                <span className="account-text">{getAccountDisplayName()}</span>
               </a>
               <ul className={`dropdown-menu dropdown-menu-custom ${showAccount ? "show" : ""}`}
-              aria-labelledby="accountDropdown">
-                <li>
-                  <Link to={"/login"} className="dropdown-item dropdown-item-custom">
-                    <span className="dropdown-icon"></span>
-                    Đăng Nhập
-                  </Link>
-                </li>
-                <li>
-                  <Link to={"/profile"} className="dropdown-item dropdown-item-custom">
-                    <span className="dropdown-icon"></span>
-                    Hồ Sơ
-                  </Link>
-                </li>
-                <li><hr className="dropdown-divider" /></li>
-                <li>
-                  <Link to={"/logout"} className="dropdown-item dropdown-item-custom">
-                    <span className="dropdown-icon"></span>
-                    Đăng Xuất
-                  </Link>
-                </li>
+                  aria-labelledby="accountDropdown">
+                {!isLoggedIn ? (
+                  <>
+                    <li>
+                      <Link to={"/login"} className="dropdown-item dropdown-item-custom">
+                        <span className="dropdown-icon">🔐</span>
+                        Đăng Nhập
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={"/register"} className="dropdown-item dropdown-item-custom">
+                        <span className="dropdown-icon">📝</span>
+                        Đăng Ký
+                      </Link>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li>
+                      <Link to={"/profile"} className="dropdown-item dropdown-item-custom">
+                        <span className="dropdown-icon">👤</span>
+                        Hồ Sơ
+                      </Link>
+                    </li>
+                    <li><hr className="dropdown-divider" /></li>
+                    <li className="dropdown-item dropdown-item-custom p-0">
+                      <Logout />
+                    </li>
+                  </>
+                )}
               </ul>
             </li>
           </ul>
