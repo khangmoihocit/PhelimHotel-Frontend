@@ -56,7 +56,7 @@ const ExistingRooms = () => {
     try {
       const result = await deleteRoom(roomId);
       if (result === "") {
-        setSuccessMessage("room no " + roomId + " was delete");
+        setSuccessMessage("xóa phòng thành công " + roomId);
         fetchRooms();
       } else {
         console.error(`Lỗi không thể xóa phòng: ${result.message}`);
@@ -88,7 +88,7 @@ const ExistingRooms = () => {
       ) : (
         <section className="mt-5 mb-5 container">
           <div className="d-flex justify-content-between mb-3 mt-5">
-            <h2>Existing rooms</h2>
+            <h2>Quản lý phòng</h2>
           </div>
           {successMessage && (
             <div className="alert alert-success fade show">
@@ -106,7 +106,7 @@ const ExistingRooms = () => {
 
             <Col md={6} className="d-flex justify-content-end">
               <Link to={"/add-room"}>
-                <FaPlus /> Add room
+                <FaPlus /> Thêm phòng
               </Link>
             </Col>
           </Row>

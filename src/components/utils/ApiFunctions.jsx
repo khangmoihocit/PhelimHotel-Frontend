@@ -19,7 +19,13 @@ export const addRoom = async (photo, roomType, roomPrice) => {
   formData.append("roomType", roomType);
   formData.append("roomPrice", roomPrice);
 
-  const response = await api.post("/rooms/add/new-room", formData);
+  const token = localStorage.getItem("token");
+  const response = await api.post("/rooms/add/new-room", formData, {
+    headers: {
+      Authorization: `Bearer ${token}`
+      // Note: Don't set Content-Type for multipart/form-data, let browser set it with boundary
+    }
+  });
   if (response.status == 201) {
     return true;
   } else {
@@ -47,7 +53,12 @@ export const getAllRooms = async () => {
 
 export const deleteRoom = async (roomId) => {
   try {
-    const result = await api.delete(`rooms/delete/room/${roomId}`);
+    const token = localStorage.getItem("token");
+    const result = await api.delete(`rooms/delete/room/${roomId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
     return result.data;
   } catch (error) {
     throw new Error("không thể xóa: " + error.message);
@@ -60,7 +71,16 @@ export const updateRoom = async (roomId, roomData) => {
   formData.append("roomPrice", roomData.roomPrice);
   formData.append("photo", roomData.photo);
 
-  const response = await api.put(`rooms/update/${roomId}`, formData);
+  const token = localStorage.getItem("token");
+  console.log("Token being sent:", token ? "Token exists" : "No token found");
+  console.log("Room ID:", roomId);
+  console.log("Room data:", roomData);
+  
+  const response = await api.put(`rooms/update/${roomId}`, formData, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
   return response;
 };
 

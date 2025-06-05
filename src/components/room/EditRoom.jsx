@@ -54,11 +54,15 @@ const EditRoom = () => {
     };
     fetchRoom();
   }, [roomId]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Starting room update...");
+    console.log("Room data being sent:", room);
+    
     try {
       const response = await updateRoom(room.id, room);
+      console.log("Update response:", response);
+      
       if (response.status === 200) {
         setSuccessMessage("Cập nhật phòng thành công");
         const updateRoomData = await getRoomById(roomId);
@@ -69,6 +73,8 @@ const EditRoom = () => {
         setErrorMessage("Lỗi cập nhật thất bại");
       }
     } catch (error) {
+      console.error("Update error:", error);
+      console.error("Error response:", error.response);
       setErrorMessage(error.message);
     }
     setTimeout(() => {
@@ -82,10 +88,10 @@ const EditRoom = () => {
       <section className="container mt-5 mb-5">
         <div className="row justify-content-center">
           <div className="col-md-8 col-lg-6">
-            <div className="card shadow rounded p-4 border-0 bg-light">
-              <h2 className="mt-2 mb-4 text-center text-primary">
+            <div className="card shadow rounded p-4 border-0 bg-light">              <h2 className="mt-2 mb-4 text-center text-primary">
                 Cập nhập phòng
               </h2>
+              
               {successMessage && (
                 <div className="alert alert-success fade show">
                   {successMessage}
