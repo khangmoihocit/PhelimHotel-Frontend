@@ -39,11 +39,12 @@ const Checkout = () => {
         <div className="checkout-header">
           <h1 className="checkout-title">Đặt Phòng Khách Sạn</h1>
           <p className="checkout-subtitle">
-            Hoàn tất thông tin để xác nhận đặt phòng của bạn. 
-            Chúng tôi cam kết mang đến trải nghiệm tuyệt vời nhất.
+            Hoàn tất thông tin để xác nhận đặt phòng của bạn. Chúng tôi cam kết
+            mang đến trải nghiệm tuyệt vời nhất.
           </p>
         </div>
-      </div>      {/* Main Content */}
+      </div>{" "}
+      {/* Main Content */}
       <div className="container-fluid px-3">
         <div className="row">
           {/* Compact Room Information - Side Panel */}
@@ -57,20 +58,20 @@ const Checkout = () => {
                 <>
                   {/* Compact Room Image */}
                   <div className="room-image-compact">
-                    <img 
+                    <img
                       src={`data:image/jpg;base64, ${roomInfo.photo}`}
                       alt="Ảnh phòng"
                       className="room-image"
                     />
                     <div className="room-price-badge">
-                      {roomInfo.roomPrice?.toLocaleString('vi-VN')} VNĐ/đêm
+                      {roomInfo.roomPrice?.toLocaleString("vi-VN")} VNĐ/đêm
                     </div>
                   </div>
 
                   {/* Compact Room Details */}
                   <div className="room-details-compact">
                     <h4 className="room-type-title">{roomInfo.roomType}</h4>
-                    
+
                     {/* Compact Services */}
                     <div className="services-compact">
                       <div className="service-item-compact">
@@ -104,7 +105,6 @@ const Checkout = () => {
           </div>
         </div>
       </div>
-
       {/* Related Rooms */}
       <div className="container">
         <div className="related-rooms-section">

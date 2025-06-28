@@ -9,6 +9,7 @@ export default function AddRoom() {
     roomType: "",
     roomPrice: "",
   });
+  
   const [imagePreview, setImagePreview] = useState(""); //lưu đường dẫn ảnh
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
